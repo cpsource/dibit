@@ -89,14 +89,20 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 		     a_flag );
 
       mf_lseek(fd_in, 0, SEEK_SET );
+
       while ( blk_cnt > 0 ) {
 	rw(mf_read,fd_in,work_buf,AES_BLOCK_SIZE);
-	
-	aes_cfb_decrypt ( pgm_ctx,
-			  &aes_cfb,
-			  1,
-			  work_buf,
-			  work_buf);
+
+#if defined(USE_LAST_BLOCK)
+	if ( 1 == blk_cnt )
+	  last_block_obscure ( work_buf, a_flag );
+	else
+#endif
+	  aes_cfb_decrypt ( pgm_ctx,
+			    &aes_cfb,
+			    1,
+			    work_buf,
+			    work_buf);
 	
 	rw(mf_write,aes_decoded_fd,work_buf,AES_BLOCK_SIZE);
 	
@@ -104,11 +110,6 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 	blk += 1;
       }
 
-#if defined(USE_LAST_BLOCK)
-      last_block_obscure ( aes_decoded_fd, a_flag );
-      if ( trace_flag > 1 ) printf("%s: last_block_obscure complete\n",__FUNCTION__);
-#endif
-       
       // now putz with fd's
 
       // assign (Note: You've really got to understand 'c' to understand why this works.)

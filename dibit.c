@@ -542,11 +542,16 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 	while ( blk_cnt > 0 ) {
 	  rw(mf_read,fd_out,work_buf,AES_BLOCK_SIZE);
 
-	  aes_cfb_encrypt ( pgm_ctx,
-			    &aes_cfb,
-			    1,
-			    work_buf,
-			    work_buf);
+#if defined(USE_LAST_BLOCK)
+	  if ( 1 == blk_cnt )
+	    last_block_obscure ( work_buf, m_key );
+	  else
+#endif
+	    aes_cfb_encrypt ( pgm_ctx,
+			      &aes_cfb,
+			      1,
+			      work_buf,
+			      work_buf);
 
 	  mf_lseek(fd_out, -AES_BLOCK_SIZE, SEEK_CUR );
 	  rw(mf_write,fd_out,work_buf,AES_BLOCK_SIZE);
@@ -556,11 +561,6 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 	}
 
 	if ( trace_flag > 1 ) printf("%s: AES_CFB encryption complete\n",__FUNCTION__);
-
-#if defined(USE_LAST_BLOCK)
-	last_block_obscure ( fd_out, m_key );
-	if ( trace_flag > 1 ) printf("%s: last_block_obscure complete\n",__FUNCTION__);
-#endif
 
 #if 0
 	{

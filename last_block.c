@@ -7,10 +7,9 @@
 #endif
 
 // obscure the last block in a file
-void last_block_obscure ( unsigned int fd,
+void last_block_obscure ( unsigned char *array,
 			  unsigned char *key )
 {
-  unsigned char last_block [ AES_BLOCK_SIZE ];
   BS bs;
   unsigned char salt [ 8 ];
   unsigned char *src,*dst;
@@ -20,6 +19,17 @@ void last_block_obscure ( unsigned int fd,
   // this poly has a size of 10^50
   int poly_array[5] = {168,166,153,151,-1};
   int i;
+
+#if 0
+  {
+    int j;
+    printf("%s: initial array: ",__FUNCTION__);
+    for ( j = 0 ; j < AES_BLOCK_SIZE ; j++ ) {
+      printf("0x%02x ",array[j] & 0xff);
+    }
+    printf("\n");
+  }
+#endif
 
   // get salt from key
   dst = salt;
@@ -34,10 +44,6 @@ void last_block_obscure ( unsigned int fd,
 			  salt, sizeof(salt),
 			  rounds, // rounds
 			  sizeof(BS),bs.bigSeed );
-
-  // read last block from file
-  rw(mf_lseek,fd,-AES_BLOCK_SIZE,SEEK_END);
-  rw(mf_read,fd,last_block,AES_BLOCK_SIZE);
 
   for ( i = 0 ; i < AES_BLOCK_SIZE ; i++ ) {
     unsigned int dat;
@@ -64,12 +70,19 @@ void last_block_obscure ( unsigned int fd,
     }
 
     // obscure
-    last_block [ i ] ^= dat;
+    array [ i ] ^= dat;
   }
 
-  // write last block from file
-  rw(mf_lseek,fd,-AES_BLOCK_SIZE,SEEK_END);
-  rw(mf_write,fd,last_block,AES_BLOCK_SIZE);
+#if 0
+  {
+    int j;
+    printf("%s: final array  : ",__FUNCTION__);
+    for ( j = 0 ; j < AES_BLOCK_SIZE ; j++ ) {
+      printf("0x%02x ",array[j] & 0xff);
+    }
+    printf("\n");
+  }
+#endif
 
   // done
 }
