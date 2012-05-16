@@ -159,6 +159,21 @@ static int lfsr_clock_once ( BIG_SEED *big_seed, int *poly_array )
   return res;
 }
 
+// get lfsr bits
+unsigned int get_lfsr_bits ( int num_bits, BS *bs, int *poly_array )
+{
+  unsigned int res = 0;
+  int i;
+
+  for ( i = 0 ; i < num_bits ; i++ ) {
+    if ( lfsr_clock_once(bs, poly_array) ) {
+      res |= (1<<i);
+    }
+  }
+
+  return res;
+}
+
 /* get dual_lfsr_bits */
 //
 // Note: we shift two polys, if the first one returns true,

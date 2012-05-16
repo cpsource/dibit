@@ -1,6 +1,8 @@
 #ifndef __config_h__
 #define __config_h__
 
+/* Copyright (C) 1998, compuPage, Inc. */
+
 // the name of your key file
 #define KEY_FILE_NAME "key_file.dat"
 
@@ -72,6 +74,9 @@
 // define as 1 to fuzz output
 #define USE_FUZZ 1
 
+// define to obscure last block
+#define USE_LAST_BLOCK
+
 #include <stdio.h>
 #include <assert.h>
 #include <errno.h>
@@ -100,5 +105,6 @@
 #include "aes_cfb.h"
 #include "key_mgmt.h"
 #include "debug.h"
+#include "last_block.h"
 
 #endif /* __config_h__ */

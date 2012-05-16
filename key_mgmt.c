@@ -83,7 +83,7 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
       blk_cnt = mrec_sb.st_size / AES_BLOCK_SIZE;
       blk     = 0;
-       
+
       aes_cfb_init ( pgm_ctx,
 		     &aes_cfb,
 		     a_flag );
@@ -104,6 +104,11 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 	blk += 1;
       }
 
+#if defined(USE_LAST_BLOCK)
+      last_block_obscure ( aes_decoded_fd, a_flag );
+      if ( trace_flag > 1 ) printf("%s: last_block_obscure complete\n",__FUNCTION__);
+#endif
+       
       // now putz with fd's
 
       // assign (Note: You've really got to understand 'c' to understand why this works.)

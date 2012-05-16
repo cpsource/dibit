@@ -292,6 +292,11 @@ the location of the marker and the number of pad bytes added.
 Dibit is amazingly sensitive to workgroup-size, and the starting location of that work-group,
 so this information in concealed.
 
+For version 1.1, the last AES_CFB encrypted block in the file is obscured further by module
+last_block.[ch]. This was done because it was felt that for certain pads,
+specifically 1 with 15 zeros, would leak the master key. You can turn this
+feature off by undefining USE_LAST_BLOCK in config.h.
+
 Futures
 -------
 
@@ -317,3 +322,9 @@ References
 [3] http://en.wikipedia.org/wiki/RSA_%28algorithm%29
 
 [4] http://en.wikipedia.org/wiki/Shrinking_generator
+
+Release Notes
+-------------
+
+version_1_0 Created - Initial Release
+version_1_1 Created - define USE_LAST_BLOCK to obscure last block in file

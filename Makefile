@@ -28,7 +28,8 @@ CFILES = \
 	mf.c \
 	main.c \
 	key_mgmt.c \
-	debug.c
+	debug.c \
+	last_block.c
 
 #ifeq ($(AES),y)
 CFILES += aes_generic.c aes_pseudo.c aes_cfb.c
@@ -65,6 +66,8 @@ chk: chk.c mf.o
 
 aes_cfb: aes_cfb.c aes_generic.c
 	$(CC) -DCP_TEST $(CFLAGS) -Wno-pointer-sign -o aes_cfb aes_cfb.c aes_generic.c $(LIBS)
+
+last_block.o: last_block.c
 
 main.o: main.c
 

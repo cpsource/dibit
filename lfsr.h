@@ -7,7 +7,7 @@
 // Note: Must be multiple of 4, ie BIG_SEED_MAX % 4 = 0
 #define BIG_SEED_MAX 24
 
-typedef struct bs {
+typedef struct bs_struct_t {
   unsigned char bigSeed [ BIG_SEED_MAX ];
 } BS , BIG_SEED, *BS_PTR;
 
@@ -41,4 +41,8 @@ void init_dual_lfsr_from_key ( struct pgm_ctx_struct_t *pgm_ctx,
 			       D_LFSR *x,               /* output structure      */
 			       struct keybuf_3_iterator_t *kb3_i /* key bits              */
 			       );
+
+// get lfsr bits
+unsigned int get_lfsr_bits ( int num_bits, BS *bs, int *poly_array );
+
 #endif /* __lfsr_h__ */

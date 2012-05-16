@@ -557,6 +557,11 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 
 	if ( trace_flag > 1 ) printf("%s: AES_CFB encryption complete\n",__FUNCTION__);
 
+#if defined(USE_LAST_BLOCK)
+	last_block_obscure ( fd_out, m_key );
+	if ( trace_flag > 1 ) printf("%s: last_block_obscure complete\n",__FUNCTION__);
+#endif
+
 #if 0
 	{
 	  printf("%s:%d: before encrypt\n",
