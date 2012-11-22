@@ -87,6 +87,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #include "getkey.h"
 #include "aes.h"

@@ -328,3 +328,4 @@ Release Notes
 
 version_1_0 Created - Initial Release
 version_1_1 Created - define USE_LAST_BLOCK to obscure last block in file
+version_1_2 Created - add trivium to last_block encode/decode

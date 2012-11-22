@@ -47,6 +47,13 @@ CFLAGS += -DUSE_LIBGCRYPT `libgcrypt-config --cflags`
 LIBS += `libgcrypt-config --libs`
 #endif
 
+# to build without trivium in last_block
+# unpound the next two #'s, then remake
+#ifeq ($(TRIVIUM),y)
+CFLAGS += -DUSE_TRIVIUM
+CFILES += trivium.c
+#endif
+
 # turn source list into object list
 OBJS = $(CFILES:%.c=%.o)
 
