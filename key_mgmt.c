@@ -2,6 +2,7 @@
 
 #include "config.h"
 #include "dibit.h"
+#include "wabbit.h"
 
 extern int trace_flag;
 
@@ -46,6 +47,7 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 {
   char *k_flag = *ck_flag;
   char *a_flag = *ca_flag;
+  int chk;
 
   // decode without -a ???
   if ( pgm_ctx->dibit_d_flag && ! pgm_ctx->dibit_a_flag ) {
@@ -61,12 +63,30 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
     AES_CFB aes_cfb;
     int *data_len,N;
     unsigned int aes_decoded_fd;
+    unsigned int wabbit_decoded_fd;
 
     if ( trace_flag > 1 )
       printf("%s:%d: aes_cfb_init with a_flag <%s>\n",
 	     __FUNCTION__,__LINE__,a_flag);
 
     memset(dfs,0,sizeof(struct dibit_file_struct_t));
+
+    //
+    // wabbit, decrypt, calculate and compare sha1
+    //
+
+    // get new temp file
+    mf_fstat(fd_in,&mrec_sb);
+    wabbit_decoded_fd = mf_open ( "wabbit_decoded_fd", 0, mrec_sb.st_size );
+
+    //printf("%s: calling wabbit_chk\n",__FUNCTION__);
+
+    // chk, decrypt, return TRUE if sha1 ok, else FALSE
+    chk = wabbit_chk ( a_flag, fd_in, wabbit_decoded_fd );
+
+    //printf("%s: wabbit_chk = %d\n",__FUNCTION__,chk);
+
+    mf_ftruncate ( wabbit_decoded_fd, mrec_sb.st_size - 20 );
 
     //
     // First Job: use aes_cfb decrypt the file with a_flag key
@@ -77,21 +97,24 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
       off_t blk;
 
       // get file size
-      mf_fstat( fd_in, &mrec_sb );
+      mf_fstat( wabbit_decoded_fd, &mrec_sb );
+
       // get new temp file
       aes_decoded_fd = mf_open ( "aes_decoded_fd", 0, mrec_sb.st_size );
 
       blk_cnt = mrec_sb.st_size / AES_BLOCK_SIZE;
       blk     = 0;
 
+      //printf("%s: a_flag = <%s>\n",__FUNCTION__,a_flag);
+
       aes_cfb_init ( pgm_ctx,
 		     &aes_cfb,
 		     a_flag );
 
-      mf_lseek(fd_in, 0, SEEK_SET );
+      mf_lseek(wabbit_decoded_fd, 0, SEEK_SET );
 
       while ( blk_cnt > 0 ) {
-	rw(mf_read,fd_in,work_buf,AES_BLOCK_SIZE);
+	rw(mf_read,wabbit_decoded_fd,work_buf,AES_BLOCK_SIZE);
 
 #if defined(USE_LAST_BLOCK)
 	if ( 1 == blk_cnt )
@@ -125,6 +148,17 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
       mf_lseek(fd_in,-1*(AES_BLOCK_SIZE * 2),SEEK_END);
       rw(mf_read,fd_in,t_buf,AES_BLOCK_SIZE * 2);
+
+#if 0
+      {
+	printf("%s:%d: after aes decrupt, last two blocks\n",
+	       __FUNCTION__,__LINE__);
+	debug_show_block ( t_buf, AES_BLOCK_SIZE );
+	debug_show_block ( &t_buf[AES_BLOCK_SIZE], AES_BLOCK_SIZE );
+      }
+#endif
+      
+      //exit(0);
 
       dfs->mrec_key_last = mrec_sb.st_size - 1;
 
@@ -323,6 +357,8 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
     //
     mf_close( mrec );
     mf_close( mrec_out );
+
+    mf_close( wabbit_decoded_fd );
 
     // return k_flag
     *ck_flag = k_flag;

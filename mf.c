@@ -90,8 +90,8 @@ unsigned int mf_ftruncate ( unsigned int mf_fd, off_t offset )
   // zero out stuff we no longer want to access
   memset( &mf->mf_data [ offset ], 0, mf->st_size - offset );
 
-  // set the new offset to what user requested
-  mf->mf_offset = offset;
+  // set the new size to what user requested
+  mf->st_size = offset;
 
   // done
   return 0;
@@ -240,11 +240,11 @@ unsigned int mf_open ( char *name, int flags, int initial_size )
   memset(mf,0,sizeof(MF));
 
   if ( trace_flag > 1 )
-    printf("%s: entry, name = <%s>, flags = 0x%x, initial_size = %d\n",
+    printf("%s: entry, name = <%s>, flags = 0x%x, initial_size = %d 0x%08x\n",
 	   __FUNCTION__,
 	   name,
 	   flags,
-	   initial_size);
+	   initial_size,initial_size);
 
   if ( flags & O_CREAT ) {
     // a real open
@@ -279,6 +279,7 @@ unsigned int mf_open ( char *name, int flags, int initial_size )
   assert(mf->mf_data!=NULL);
   memset(mf->mf_data,0,initial_size);
   mf->mf_data_max = initial_size;
+  //mf->mf_st_size = mf->mf_offset = 0;
 
   // done
   return (unsigned int)mf;

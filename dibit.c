@@ -7,6 +7,7 @@
 #include <getopt.h>
 #include "dibit.h"
 #include "key_mgmt.h"
+#include "wabbit.h"
 
 extern int trace_flag;
 
@@ -560,7 +561,20 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 	  blk += 1;
 	}
 
+	{
+	  char abuf [ AES_BLOCK_SIZE ];
+	  mf_lseek(fd_out,0,SEEK_SET);
+	  rw(mf_read,fd_out,abuf,AES_BLOCK_SIZE);
+
+	  printf("%s:%d: first block before wabbit encrypt\n",
+		 __FUNCTION__,__LINE__);
+	  debug_show_block ( abuf, AES_BLOCK_SIZE );
+	}
+
 	if ( trace_flag > 1 ) printf("%s: AES_CFB encryption complete\n",__FUNCTION__);
+
+	// calc sha1, add sha1 to eof and encrypt the file with wabbit
+	wabbit_gen ( m_key, fd_out );
 
 #if 0
 	{

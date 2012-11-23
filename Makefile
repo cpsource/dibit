@@ -29,7 +29,8 @@ CFILES = \
 	main.c \
 	key_mgmt.c \
 	debug.c \
-	last_block.c
+	last_block.c \
+	wabbit.c
 
 #ifeq ($(AES),y)
 CFILES += aes_generic.c aes_pseudo.c aes_cfb.c
@@ -54,6 +55,11 @@ CFLAGS += -DUSE_TRIVIUM
 CFILES += trivium.c
 #endif
 
+#ifeq ($(RABBIT),y)
+CFLAGS += -DUSE_RABBIT
+CFILES += rabbit.c
+#endif
+
 # turn source list into object list
 OBJS = $(CFILES:%.c=%.o)
 
@@ -75,6 +81,8 @@ aes_cfb: aes_cfb.c aes_generic.c
 	$(CC) -DCP_TEST $(CFLAGS) -Wno-pointer-sign -o aes_cfb aes_cfb.c aes_generic.c $(LIBS)
 
 last_block.o: last_block.c
+
+wabbit.o: wabbit.c
 
 main.o: main.c
 

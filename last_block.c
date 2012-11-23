@@ -14,19 +14,21 @@ extern int trace_flag;
 
 // the three amigos from wikipedia
 
+#if 0
 /* Add two numbers in a GF(2^8) finite field */
-uint8_t gadd(uint8_t a, uint8_t b) {
+static uint8_t gadd(uint8_t a, uint8_t b) {
         return a ^ b;
 }
  
 /* Subtract two numbers in a GF(2^8) finite field */
-uint8_t gsub(uint8_t a, uint8_t b) {
+static uint8_t gsub(uint8_t a, uint8_t b) {
         return a ^ b;
 }
+#endif
  
 /* Multiply two numbers in the GF(2^8) finite field defined 
  * by the polynomial x^8 + x^4 + x^3 + x + 1 */
-uint8_t gmul(uint8_t a, uint8_t b) {
+static uint8_t gmul(uint8_t a, uint8_t b) {
         uint8_t p = 0;
         uint8_t counter;
         uint8_t hi_bit_set;

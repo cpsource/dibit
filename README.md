@@ -221,7 +221,8 @@ With the -a 'master-key' flag, the dibit format changes, as it includes
 all key information from above to decrypt the file. The file format is
 as follows:
 
-  (2) AES_CFB ( "dibit-cyphertext | marker | key-information | pad", master-key)
+  (2) WABBIT( AES_CFB ( "dibit-cyphertext | marker | key-information | pad",
+              -a "MasterKey" ) | sha1", -a "MasterKey" )
 
 where:
 
@@ -242,6 +243,8 @@ where:
   pad is just a series of 10000n bytes where n=0->15 used to bring the file
   up to a multiple of 16 bytes for the final step, the AES_CFB encryption
   of the file.
+
+  WABBIT uses the rabbit stream cipher gf2^128 times an lfsr to xor the data
 
 How strong is the key?
 ----------------------
@@ -329,3 +332,4 @@ Release Notes
 version_1_0 Created - Initial Release
 version_1_1 Created - define USE_LAST_BLOCK to obscure last block in file
 version_1_2 Created - add trivium to last_block encode/decode
+version_1_3 Created - add sha1 to end of -a encrypted file
