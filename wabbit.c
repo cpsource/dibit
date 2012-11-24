@@ -11,14 +11,10 @@
 #endif
 #include "rabbit.h"
 #include "sha1.h"
+#include "util.h"
+#include "diffuser.h"
 
 extern int trace_flag;
-
-#define min(a,b) ({	\
-      int v = a; \
-      if ( b < v ) v = b; \
-      v; })
-
 
 #if 0
 /* Add two numbers in a GF(2^8) finite field */
@@ -95,9 +91,20 @@ void wabbit_gen ( unsigned char *key, unsigned int fd )
     cnt_remain -= cnt;
   }
 
-  // write digest to file
-  rw(mf_lseek,fd,0,SEEK_END);
-  rw(mf_write,fd,(char *)sha1_digest,sizeof(sha1_digest));
+  {
+    struct stat sb;
+    off_t small_entropy_start;
+
+    rw(mf_lseek,fd,0,SEEK_END);
+    mf_fstat(fd,&sb);
+    small_entropy_start = sb.st_size;
+
+    // write digest to file
+    rw(mf_write,fd,(char *)sha1_digest,sizeof(sha1_digest));
+
+    // diffuse
+    diffuse_diffuse ( key, fd, small_entropy_start );
+  }
 
   //
   // prepare to encrypt fd
@@ -268,6 +275,17 @@ int wabbit_chk ( unsigned char *key, unsigned int fd_in, unsigned int fd_out )
 
     // onward
     cnt_remain -= cnt;
+  }
+
+  {
+    struct stat sb;
+    off_t small_entropy_start;
+
+    mf_fstat(fd_out,&sb);
+    small_entropy_start = sb.st_size - 20;
+
+    // un_diffuse
+    diffuse_un_diffuse ( key, fd_out, small_entropy_start );
   }
 
 #if 0

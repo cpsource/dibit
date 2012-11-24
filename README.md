@@ -246,6 +246,9 @@ where:
 
   WABBIT uses the rabbit stream cipher gf2^128 times an lfsr to xor the data
 
+  Note: sha1 is diffused throughout any previous cyphertext before WABBIT
+  encription.
+
 How strong is the key?
 ----------------------
 
@@ -333,3 +336,4 @@ version_1_0 Created - Initial Release
 version_1_1 Created - define USE_LAST_BLOCK to obscure last block in file
 version_1_2 Created - add trivium to last_block encode/decode
 version_1_3 Created - add sha1 to end of -a encrypted file
+version_1_4 Created - add diffuser

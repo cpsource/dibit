@@ -1,7 +1,4 @@
-#define min(a,b) ({	\
-      int v = a; \
-      if ( b < v ) v = b; \
-      v; })
+#include "util.h"
 
 // get bit
 int get_bit ( unsigned char *array, int bitno )
@@ -11,6 +8,16 @@ int get_bit ( unsigned char *array, int bitno )
   int mask = 1<<bit;
 
   return array[off] & mask ? 1 : 0;
+}
+
+// clr bit
+void clr_bit ( unsigned char *array, int bitno )
+{
+  int off = bitno / 8;
+  int bit = bitno % 8;
+  int mask = 1<<bit;
+
+  array[off] &= ~mask;
 }
 
 // set bit

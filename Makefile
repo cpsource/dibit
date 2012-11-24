@@ -13,6 +13,8 @@ INC = -I.
 CFLAGS = $(INC) $(OPT) -Werror -Wall -gstabs+
 LIBS = 
 
+#CFLAGS += -D USE_DIFFUSER_TEST
+
 # list all source files here
 CFILES = \
 	cell.c \
@@ -30,7 +32,8 @@ CFILES = \
 	key_mgmt.c \
 	debug.c \
 	last_block.c \
-	wabbit.c
+	wabbit.c \
+	diffuser.c
 
 #ifeq ($(AES),y)
 CFILES += aes_generic.c aes_pseudo.c aes_cfb.c
@@ -79,6 +82,8 @@ chk: chk.c mf.o
 
 aes_cfb: aes_cfb.c aes_generic.c
 	$(CC) -DCP_TEST $(CFLAGS) -Wno-pointer-sign -o aes_cfb aes_cfb.c aes_generic.c $(LIBS)
+
+diffuser.o: diffuser.c
 
 last_block.o: last_block.c
 
