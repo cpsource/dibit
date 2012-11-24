@@ -561,6 +561,7 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 	  blk += 1;
 	}
 
+#if 0
 	{
 	  char abuf [ AES_BLOCK_SIZE ];
 	  mf_lseek(fd_out,0,SEEK_SET);
@@ -570,6 +571,7 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 		 __FUNCTION__,__LINE__);
 	  debug_show_block ( abuf, AES_BLOCK_SIZE );
 	}
+#endif
 
 	if ( trace_flag > 1 ) printf("%s: AES_CFB encryption complete\n",__FUNCTION__);
 
