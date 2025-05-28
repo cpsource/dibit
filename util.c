@@ -103,7 +103,7 @@ int get_index_html ( char *buf, int cnt, unsigned short *xsubi )
   if ( fd < 0 ) {
     if ( msg_flag ) {
       printf("To increase randomness of the nrand48 function,\n"
-	     "(used to generate salt), create index.html in this directory.\n");
+         "(used to generate salt), create index.html in this directory.\n");
       printf("Example: sh index.sh\n");
       msg_flag = 0;
     }

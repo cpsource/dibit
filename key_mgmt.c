@@ -29,8 +29,8 @@ off_t find_marker ( unsigned int fd, off_t call_offset /* start searching here b
 
   if ( trace_flag ) {
     printf("%s: marker found at offset = %d\n",
-	   __FUNCTION__,
-	   (int)offset);
+       __FUNCTION__,
+       (int)offset);
   }
 
   // done
@@ -39,11 +39,11 @@ off_t find_marker ( unsigned int fd, off_t call_offset /* start searching here b
 
 // get k_flag from somewhere, based on command line swiches
 void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
-			char **ck_flag,
-			char **ca_flag,
-			unsigned int fd_in,
-			struct dibit_file_struct_t *dfs,
-			char *argv0 )
+            char **ck_flag,
+            char **ca_flag,
+            unsigned int fd_in,
+            struct dibit_file_struct_t *dfs,
+            char *argv0 )
 {
   char *k_flag = *ck_flag;
   char *a_flag = *ca_flag;
@@ -67,7 +67,7 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
     if ( trace_flag > 1 )
       printf("%s:%d: aes_cfb_init with a_flag <%s>\n",
-	     __FUNCTION__,__LINE__,a_flag);
+         __FUNCTION__,__LINE__,a_flag);
 
     memset(dfs,0,sizeof(struct dibit_file_struct_t));
 
@@ -108,29 +108,29 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
       //printf("%s: a_flag = <%s>\n",__FUNCTION__,a_flag);
 
       aes_cfb_init ( pgm_ctx,
-		     &aes_cfb,
-		     a_flag );
+             &aes_cfb,
+             a_flag );
 
       mf_lseek(wabbit_decoded_fd, 0, SEEK_SET );
 
       while ( blk_cnt > 0 ) {
-	rw(mf_read,wabbit_decoded_fd,work_buf,AES_BLOCK_SIZE);
+    rw(mf_read,wabbit_decoded_fd,work_buf,AES_BLOCK_SIZE);
 
 #if defined(USE_LAST_BLOCK)
-	if ( 1 == blk_cnt )
-	  last_block_obscure ( work_buf, a_flag );
-	else
+    if ( 1 == blk_cnt )
+      last_block_obscure ( work_buf, a_flag );
+    else
 #endif
-	  aes_cfb_decrypt ( pgm_ctx,
-			    &aes_cfb,
-			    1,
-			    work_buf,
-			    work_buf);
-	
-	rw(mf_write,aes_decoded_fd,work_buf,AES_BLOCK_SIZE);
-	
-	blk_cnt -= 1;
-	blk += 1;
+      aes_cfb_decrypt ( pgm_ctx,
+                &aes_cfb,
+                1,
+                work_buf,
+                work_buf);
+    
+    rw(mf_write,aes_decoded_fd,work_buf,AES_BLOCK_SIZE);
+    
+    blk_cnt -= 1;
+    blk += 1;
       }
 
       // now putz with fd's
@@ -151,10 +151,10 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
 #if 0
       {
-	printf("%s:%d: after aes decrupt, last two blocks\n",
-	       __FUNCTION__,__LINE__);
-	debug_show_block ( t_buf, AES_BLOCK_SIZE );
-	debug_show_block ( &t_buf[AES_BLOCK_SIZE], AES_BLOCK_SIZE );
+    printf("%s:%d: after aes decrupt, last two blocks\n",
+           __FUNCTION__,__LINE__);
+    debug_show_block ( t_buf, AES_BLOCK_SIZE );
+    debug_show_block ( &t_buf[AES_BLOCK_SIZE], AES_BLOCK_SIZE );
       }
 #endif
       
@@ -171,20 +171,20 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
       t_buf_ptr = &t_buf [ AES_BLOCK_SIZE * 2 ] - 1;
       while ( ! *t_buf_ptr ) {
-	// back up
-	dfs->mrec_key_last -= 1;
-	t_buf_ptr -= 1;
+    // back up
+    dfs->mrec_key_last -= 1;
+    t_buf_ptr -= 1;
       }
       // skip 1
       if ( *t_buf_ptr != 1 ) {
 #if 0
-	printf("%s: Error, we backup up,but didn't get a '1', but got 0x%02x instead\n",
-	       __FUNCTION__,
-	       *t_buf_ptr & 0xff);
-	exit(0);
+    printf("%s: Error, we backup up,but didn't get a '1', but got 0x%02x instead\n",
+           __FUNCTION__,
+           *t_buf_ptr & 0xff);
+    exit(0);
 #endif
       } else {
-	dfs->mrec_key_last -= 1;
+    dfs->mrec_key_last -= 1;
       }
     }
 
@@ -222,17 +222,17 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
       // get to start of mrec key
       rw(mf_lseek,
-	 fd_in,
-	 dfs->mrec_key_start,
-	 SEEK_SET);
+     fd_in,
+     dfs->mrec_key_start,
+     SEEK_SET);
       cnt = dfs->mrec_key_cnt;
 
       // read it in
       while ( cnt-- > 0 ) {
-	unsigned char dat;
+    unsigned char dat;
 
-	rw(mf_read,fd_in,&dat,1);
-	rw(mf_write,mrec,&dat,1);
+    rw(mf_read,fd_in,&dat,1);
+    rw(mf_write,mrec,&dat,1);
       }
     }
 
@@ -286,27 +286,27 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 #if 0
     {
       printf("%s:%d: after dibit decryption, before aes_cfb decryption = %d bytes\n",
-	     __FUNCTION__,__LINE__,
-	     (int)mrec_sb.st_size);
+         __FUNCTION__,__LINE__,
+         (int)mrec_sb.st_size);
       debug_show_block ( mf_get_data_ptr(mrec_out),mrec_sb.st_size);
     }
 #endif
 
     aes_cfb_init ( pgm_ctx,
-		   &aes_cfb,
-		   a_flag );
+           &aes_cfb,
+           a_flag );
     
     aes_cfb_decrypt ( pgm_ctx,
-		      &aes_cfb,
-		      mrec_sb.st_size / 16,
-		      mf_get_data_ptr ( mrec_out ),
-		      mf_get_data_ptr ( mrec_out ));
+              &aes_cfb,
+              mrec_sb.st_size / 16,
+              mf_get_data_ptr ( mrec_out ),
+              mf_get_data_ptr ( mrec_out ));
     
 #if 0
     {
       printf("%s:%d: after dibit aes decryption, mrec_out size = %d bytes\n",
-	     __FUNCTION__,__LINE__,
-	     (int)mrec_sb.st_size);
+         __FUNCTION__,__LINE__,
+         (int)mrec_sb.st_size);
       debug_show_block ( mf_get_data_ptr(mrec_out),mrec_sb.st_size);
     }
 #endif
@@ -324,7 +324,7 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
     // only for test
     if ( strlen(k_flag) > 64 ) {
       printf("%s:%d bad key\n",
-	     __FUNCTION__,__LINE__);
+         __FUNCTION__,__LINE__);
       exit(0);
     }
 #endif
@@ -347,7 +347,7 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 #if 0
     {
       printf("%s:%d: data cache is N = %d bytes in size\n",
-	     __FUNCTION__,__LINE__,N);
+         __FUNCTION__,__LINE__,N);
       debug_show_block ( pgm_ctx->key_file_saved_bits, N );
     }
 #endif
@@ -396,8 +396,8 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
     // adjust sql_next_key_offset to some random location
     {
       union {
-	unsigned char m[4];
-	unsigned int r;
+    unsigned char m[4];
+    unsigned int r;
       } v;
 
       // read as bytes so we don't get any 0 or ff
@@ -408,15 +408,15 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
 
       // is file big enough ???
       if ( pgm_ctx->key_file_sb.st_size < KEY_FILE_SAVED_BITS_MAX ) {
-	printf("%s: Error, key_file.dat is not big enough to proceed. Go get a new bigger one.\n",__FUNCTION__);
-	exit(0);
+    printf("%s: Error, key_file.dat is not big enough to proceed. Go get a new bigger one.\n",__FUNCTION__);
+    exit(0);
       }
 
       // jump out to some random place, make sure we have enough remaining
       // tell key_file module
       pgm_ctx->key_file_offset_start = 
-	pgm_ctx->key_file_offset =
-	v.r % ( pgm_ctx->key_file_sb.st_size - KEY_FILE_SAVED_BITS_MAX );
+    pgm_ctx->key_file_offset =
+    v.r % ( pgm_ctx->key_file_sb.st_size - KEY_FILE_SAVED_BITS_MAX );
 
       // zero any cache
       pgm_ctx->key_file_prev_offset = -1;
@@ -424,8 +424,8 @@ void key_mgmt_get_key ( PGM_CTX *pgm_ctx,
     }
 
     sprintf(wbuf,"0x%x-%s",
-	    pgm_ctx->key_file_offset,
-	    x);
+        pgm_ctx->key_file_offset,
+        x);
 
     if ( k_flag ) {
       free(k_flag);

@@ -81,7 +81,7 @@ void xor_key_bits ( int n, KEYBUF_3_PTR kp );
  */
 /* initialize new iterator */
 void kb_iterator_new ( KEYBUF_3_ITERATOR_PTR ki,
-		       KEYBUF_3_PTR          kb );
+               KEYBUF_3_PTR          kb );
 
 /* get 'n' bits from key interator 'ki' */
 aDat getNKeyBits_3_iterator ( struct pgm_ctx_struct_t *pgm_ctx, int n, KEYBUF_3_ITERATOR_PTR ki );

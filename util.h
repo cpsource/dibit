@@ -1,7 +1,7 @@
 #ifndef __util_h__
 #define __util_h__
 
-#define min(a,b) ({	\
+#define min(a,b) ({ \
       int v = a; \
       if ( b < v ) v = b; \
       v; })

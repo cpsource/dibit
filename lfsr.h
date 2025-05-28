@@ -38,9 +38,9 @@ struct keybuf_3_iterator_t;
 
 /* init_dual_lfsr_from_key */
 void init_dual_lfsr_from_key ( struct pgm_ctx_struct_t *pgm_ctx,
-			       D_LFSR *x,               /* output structure      */
-			       struct keybuf_3_iterator_t *kb3_i /* key bits              */
-			       );
+                   D_LFSR *x,               /* output structure      */
+                   struct keybuf_3_iterator_t *kb3_i /* key bits              */
+                   );
 
 // get lfsr bits
 unsigned int get_lfsr_bits ( int num_bits, BS *bs, int *poly_array );

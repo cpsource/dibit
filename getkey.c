@@ -23,7 +23,7 @@ extern int trace_flag;
 void show_bits_used ( KEYBUF_3_PTR kp_3 )
 {
   printf("bits used = %d\n",
-	 kp_3->bits_used);
+     kp_3->bits_used);
 }
 
 #if 0
@@ -31,7 +31,7 @@ void show_bits_used ( KEYBUF_3_PTR kp_3 )
 static int unUsedBits ( KEYBUF_PTR kp )
 {
   int res;
-	
+    
   if ( kp->keyMax * 8 > kp->usedBits ) {
     res = kp->keyMax * 8 - kp->usedBits;
   } else {
@@ -40,8 +40,8 @@ static int unUsedBits ( KEYBUF_PTR kp )
 
 #if 0
   printf("unUsedBits: keyMax*8 = %d, usedBits = %d\n",
-	 kp->keyMax*8,
-	 kp->usedBits);
+     kp->keyMax*8,
+     kp->usedBits);
 #endif /* 0 */
 
   return res;
@@ -175,13 +175,13 @@ static void getkey ( char *s , KEYBUF_PTR kp )
       strcpy(nd,d);
 
       for ( i = len ; i < 64 ; i++ ) {
-	// return some number of bits
-	nd[i] = lfsr_poly_bits ( &bs, 8 );
+    // return some number of bits
+    nd[i] = lfsr_poly_bits ( &bs, 8 );
 
 #if 0
-	printf("%s: key1 - adding key bit nd[%d] = 0x%02x\n",
-	       __FUNCTION__,
-	       i,nd[i] & 0xff);
+    printf("%s: key1 - adding key bit nd[%d] = 0x%02x\n",
+           __FUNCTION__,
+           i,nd[i] & 0xff);
 #endif
 
       }
@@ -206,7 +206,7 @@ static void getkey ( char *s , KEYBUF_PTR kp )
     *kdst++ ^= *src++;
   }
 #endif // USE_SHA1
-	
+    
   /* get the second part of the key */
   c++;
   len = strlen(c);
@@ -240,13 +240,13 @@ static void getkey ( char *s , KEYBUF_PTR kp )
       strcpy(nd,d);
 
       for ( i = len ; i < 64 ; i++ ) {
-	// return some number of bits
-	nd[i] = lfsr_poly_bits ( &bs, 8 );
+    // return some number of bits
+    nd[i] = lfsr_poly_bits ( &bs, 8 );
 
 #if 0
-	printf("%s: key2 - adding key bit nd[%d] = 0x%02x\n",
-	       __FUNCTION__,
-	       i,nd[i] & 0xff);
+    printf("%s: key2 - adding key bit nd[%d] = 0x%02x\n",
+           __FUNCTION__,
+           i,nd[i] & 0xff);
 #endif
 
       }
@@ -341,38 +341,38 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
     } else {
       // check for 0x form of key
       if ( '0' == s[0] && 'x' == s[1] ) {
-	unsigned int kx;
+    unsigned int kx;
 
-	// yes, attempt to grab key from KEY_FILE_NAME
-	sscanf(&s[2],"%x",&kx);
+    // yes, attempt to grab key from KEY_FILE_NAME
+    sscanf(&s[2],"%x",&kx);
 
-	// jump out to some random place, make sure we have enough remaining
-	// tell key_file module
-	pgm_ctx->key_file_offset      = kx;
-	// zero any cache
-	pgm_ctx->key_file_prev_offset = -1;
+    // jump out to some random place, make sure we have enough remaining
+    // tell key_file module
+    pgm_ctx->key_file_offset      = kx;
+    // zero any cache
+    pgm_ctx->key_file_prev_offset = -1;
     
-	if ( key_file_valid(pgm_ctx) ) {
+    if ( key_file_valid(pgm_ctx) ) {
       
-	  if ( trace_flag > 1 )
-	    printf("%s: pulling key from file <%s> at offset = 0x%x (%d)\n",
-		   __FUNCTION__,
-		   KEY_FILE_NAME,
-		   kx,kx);
+      if ( trace_flag > 1 )
+        printf("%s: pulling key from file <%s> at offset = 0x%x (%d)\n",
+           __FUNCTION__,
+           KEY_FILE_NAME,
+           kx,kx);
       
-	  // parsel out bits
+      // parsel out bits
       
-	  key_file_read ( pgm_ctx, kp3->key_one.k  , sizeof(kp3->key_one.k) );
-	  key_file_read ( pgm_ctx, kp3->key_two.k  , sizeof(kp3->key_two.k) );
-	  key_file_read ( pgm_ctx, kp3->key_three.k, sizeof(kp3->key_three.k) );
-	  key_file_read ( pgm_ctx, kp3->key_four.k, sizeof(kp3->key_four.k) );
+      key_file_read ( pgm_ctx, kp3->key_one.k  , sizeof(kp3->key_one.k) );
+      key_file_read ( pgm_ctx, kp3->key_two.k  , sizeof(kp3->key_two.k) );
+      key_file_read ( pgm_ctx, kp3->key_three.k, sizeof(kp3->key_three.k) );
+      key_file_read ( pgm_ctx, kp3->key_four.k, sizeof(kp3->key_four.k) );
       
-	} else {
-	  if ( trace_flag > 1 )
-	    printf("%s: Warning, can't open file <%s>, using input string with non-file key generator\n",
-		   __FUNCTION__,
-		   KEY_FILE_NAME);
-	}
+    } else {
+      if ( trace_flag > 1 )
+        printf("%s: Warning, can't open file <%s>, using input string with non-file key generator\n",
+           __FUNCTION__,
+           KEY_FILE_NAME);
+    }
       }
     }
   } // dibit_n_flag
@@ -381,10 +381,10 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
   // use libgcrypt to generate bits
   //
   keybuffer = (unsigned char *)alloca (
-				       (keysize = sizeof(kp3->key_one.k) +
-					sizeof(kp3->key_two.k) +
-					sizeof(kp3->key_three.k) +
-					sizeof(kp3->key_four.k)) );
+                       (keysize = sizeof(kp3->key_one.k) +
+                    sizeof(kp3->key_two.k) +
+                    sizeof(kp3->key_three.k) +
+                    sizeof(kp3->key_four.k)) );
   assert(keybuffer!=NULL);
 
   // get salt from key
@@ -399,13 +399,13 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
 
   // do the dew
   sts = gcry_kdf_derive ( s,s_len,
-			  GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			  salt, sizeof(salt),
-			  16, keysize,keybuffer );
+              GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+              salt, sizeof(salt),
+              16, keysize,keybuffer );
   if ( sts ) {
     printf("%s: gcry_kdf_derive failed with sts = %d\n",
-	   __FUNCTION__,
-	   sts);
+       __FUNCTION__,
+       sts);
     exit(0);
   }
 
@@ -504,33 +504,33 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
 
       if ( key_file_valid(pgm_ctx) ) {
 
-	if ( trace_flag > 1 )
-	  printf("%s: pulling key from file <%s> at offset = 0x%x (%d)\n",
-		 __FUNCTION__,
-		 KEY_FILE_NAME,
-		 kx,kx);
+    if ( trace_flag > 1 )
+      printf("%s: pulling key from file <%s> at offset = 0x%x (%d)\n",
+         __FUNCTION__,
+         KEY_FILE_NAME,
+         kx,kx);
 
-	// parsel out bits
+    // parsel out bits
 
-	key_file_read ( pgm_ctx, kp3->key_one.k  , sizeof(kp3->key_one.k) );
-	key_file_read ( pgm_ctx, kp3->key_two.k  , sizeof(kp3->key_two.k) );
-	key_file_read ( pgm_ctx, kp3->key_three.k, sizeof(kp3->key_three.k) );
+    key_file_read ( pgm_ctx, kp3->key_one.k  , sizeof(kp3->key_one.k) );
+    key_file_read ( pgm_ctx, kp3->key_two.k  , sizeof(kp3->key_two.k) );
+    key_file_read ( pgm_ctx, kp3->key_three.k, sizeof(kp3->key_three.k) );
 
-	kp3->max_key_groups += 1;
-	key_file_read ( pgm_ctx, kp3->key_four.k, sizeof(kp3->key_four.k) );
-	kp3->key_four.keyMax = KEYBUF_128_SIZE;
+    kp3->max_key_groups += 1;
+    key_file_read ( pgm_ctx, kp3->key_four.k, sizeof(kp3->key_four.k) );
+    kp3->key_four.keyMax = KEYBUF_128_SIZE;
       
-	// done if no '-' in string
-	// else we are going to run the string through RMD and xor those
-	// results with whatever came out of the key file
-	if ( NULL == strchr(s,'-') ) return;
+    // done if no '-' in string
+    // else we are going to run the string through RMD and xor those
+    // results with whatever came out of the key file
+    if ( NULL == strchr(s,'-') ) return;
 
-	if ( trace_flag > 1 ) printf("%s: xoring in key string\n",__FUNCTION__);
+    if ( trace_flag > 1 ) printf("%s: xoring in key string\n",__FUNCTION__);
 
       } else {
-	printf("%s: Warning, can't open file <%s>, using input string with non-file key generator\n",
-	       __FUNCTION__,
-	       KEY_FILE_NAME);
+    printf("%s: Warning, can't open file <%s>, using input string with non-file key generator\n",
+           __FUNCTION__,
+           KEY_FILE_NAME);
       }
     }
   }
@@ -637,8 +637,8 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
       int iterator; \
       unsigned char *tgt = targ; \
       for ( iterator = 0 ; iterator < RMDsize/8 ; iterator++, tgt += 1 ) { \
-	*tgt ^= zorch; \
-	zorch += 1; \
+    *tgt ^= zorch; \
+    zorch += 1; \
       } \
     })
  
@@ -648,7 +648,7 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
 
     if ( !first ) {
       if ( trace_flag > 1 ) printf("%s: duplicate binary key detected and corrected\n",
-			       __FUNCTION__);
+                   __FUNCTION__);
     }
     first = 0;
 
@@ -740,7 +740,7 @@ void getkey_3 ( PGM_CTX *pgm_ctx, char *s , KEYBUF_3 *kp3 )
 #if defined ( CPTRACE )
   key3 = d;
   printf("getkey_3: key1 = <%s>, key2 = <%s>, key3 = <%s>\n",
-	 key1,key2,key3);
+     key1,key2,key3);
 #endif
 
   /* return to caller */
@@ -764,24 +764,24 @@ aDat getNKeyBits_3 ( PGM_CTX *pgm_ctx, int n, KEYBUF_3 *kp )
     switch ( kp->key_idx )
       {
       case 0:
-	k = &kp->key_one;
-	break;
-	
+    k = &kp->key_one;
+    break;
+    
       case 1:
-	k = &kp->key_two;
-	break;
-	
+    k = &kp->key_two;
+    break;
+    
       case 2:
-	k = &kp->key_three;
-	break;
+    k = &kp->key_three;
+    break;
 
       case 3:
-	// Note: Cheat a bit - KEYBUF and KEYBUF_3 must be the same except for the key size
-	k = (KEYBUF *)&kp->key_four;
-	break;
-	
+    // Note: Cheat a bit - KEYBUF and KEYBUF_3 must be the same except for the key size
+    k = (KEYBUF *)&kp->key_four;
+    break;
+    
       default:
-	assert(1==0);
+    assert(1==0);
       }
 
     res |= ( nextKeyBit(k) << i );
@@ -791,90 +791,90 @@ aDat getNKeyBits_3 ( PGM_CTX *pgm_ctx, int n, KEYBUF_3 *kp )
     if ( did_wrap_true ( k ) ) {
       kp->key_idx++;
       if ( kp->key_idx >= kp->max_key_groups ) {
-	kp->key_idx = 0;
+    kp->key_idx = 0;
 
 #if defined(USE_AES)
-	// lets encrypt our keys using aes 'b'
-	{
-	  unsigned char *kc;
-	  int i;
+    // lets encrypt our keys using aes 'b'
+    {
+      unsigned char *kc;
+      int i;
 
-	  if ( 1 || trace_flag ) printf("%s: encrypting all keys\n",__FUNCTION__);
+      if ( 1 || trace_flag ) printf("%s: encrypting all keys\n",__FUNCTION__);
 
-	  //
-	  // key_one
-	  //
-	  kc = kp->key_one.k;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      //
+      // key_one
+      //
+      kc = kp->key_one.k;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE/2;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE/2;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  //
-	  // key_two
-	  //
-	  kc = kp->key_two.k;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      //
+      // key_two
+      //
+      kc = kp->key_two.k;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE/2;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE/2;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  //
-	  // key_three
-	  //
-	  kc = kp->key_three.k;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      //
+      // key_three
+      //
+      kc = kp->key_three.k;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE/2;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE/2;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  //
-	  // key_four
-	  //
-	  kc = kp->key_four.k;
-	  for ( i = 0 ; i < KEYBUF_128_SIZE/AES_BLOCK_SIZE ; i++, kc += AES_BLOCK_SIZE ) {
-	    aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-			 pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-			 kc);
-	    memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
-	  }
-	}
+      //
+      // key_four
+      //
+      kc = kp->key_four.k;
+      for ( i = 0 ; i < KEYBUF_128_SIZE/AES_BLOCK_SIZE ; i++, kc += AES_BLOCK_SIZE ) {
+        aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+             pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+             kc);
+        memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      }
+    }
 #endif // USE_AES
 
       }
@@ -960,7 +960,7 @@ typedef struct keybuf_3_iterator {
 
 /* initialize new iterator */
 void kb_iterator_new ( KEYBUF_3_ITERATOR_PTR ki,
-		       KEYBUF_3_PTR          kb )
+               KEYBUF_3_PTR          kb )
 {
   memset( ki, 0 , sizeof( KEYBUF_3_ITERATOR ));
   ki->kb = kb;
@@ -968,8 +968,8 @@ void kb_iterator_new ( KEYBUF_3_ITERATOR_PTR ki,
 
 /* get next key bit from kp for the iterator */
 static int nextKeyBit_iterator ( KEYBUF_PTR kp,
-				 int *bit,
-				 int *idx )
+                 int *bit,
+                 int *idx )
 {
   int res;
 
@@ -1015,19 +1015,19 @@ aDat getNKeyBits_3_iterator ( PGM_CTX *pgm_ctx, int n, KEYBUF_3_ITERATOR_PTR ki 
     switch ( ki->key_idx )
       {
       case 0:
-	k = &kp->key_one;
-	break;
-	
+    k = &kp->key_one;
+    break;
+    
       case 1:
-	k = &kp->key_two;
-	break;
-	
+    k = &kp->key_two;
+    break;
+    
       case 2:
-	k = &kp->key_three;
-	break;
-	
+    k = &kp->key_three;
+    break;
+    
       default:
-	assert(1==0);
+    assert(1==0);
       }
 
     res |= ( nextKeyBit_iterator(k,&ki->bit,&ki->idx) << i );
@@ -1039,90 +1039,90 @@ aDat getNKeyBits_3_iterator ( PGM_CTX *pgm_ctx, int n, KEYBUF_3_ITERATOR_PTR ki 
     if ( did_wrap_true_iterator ( ki ) ) {
       ki->key_idx += 1;
       if ( ki->key_idx > 2 ) {
-	ki->key_idx = 0;
+    ki->key_idx = 0;
 
 #if defined(USE_AES)
-	// lets encrypt our keys using aes 'b'
-	{
-	  unsigned char *kc;
-	  int i;
+    // lets encrypt our keys using aes 'b'
+    {
+      unsigned char *kc;
+      int i;
 
-	  if ( trace_flag > 1 ) printf("%s: encrypting all keys\n",__FUNCTION__);
+      if ( trace_flag > 1 ) printf("%s: encrypting all keys\n",__FUNCTION__);
 
-	  //
-	  // key_one
-	  //
-	  kc = kp->key_one.k;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      //
+      // key_one
+      //
+      kc = kp->key_one.k;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE/2;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE/2;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  //
-	  // key_two
-	  //
-	  kc = kp->key_two.k;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      //
+      // key_two
+      //
+      kc = kp->key_two.k;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE/2;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE/2;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  //
-	  // key_three
-	  //
-	  kc = kp->key_three.k;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      //
+      // key_three
+      //
+      kc = kp->key_three.k;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  kc += AES_BLOCK_SIZE/2;
-	  aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		       pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		       kc);
-	  memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      kc += AES_BLOCK_SIZE/2;
+      aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+               pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+               kc);
+      memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
 
-	  //
-	  // key_four
-	  //
-	  kc = kp->key_four.k;
-	  for ( i = 0 ; i < KEYBUF_128_SIZE/AES_BLOCK_SIZE ; i++, kc += AES_BLOCK_SIZE ) {
-	    aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-			 pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-			 kc);
-	    memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
-	  }
-	}
+      //
+      // key_four
+      //
+      kc = kp->key_four.k;
+      for ( i = 0 ; i < KEYBUF_128_SIZE/AES_BLOCK_SIZE ; i++, kc += AES_BLOCK_SIZE ) {
+        aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
+             pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+             kc);
+        memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
+      }
+    }
 #endif // USE_AES
 
       }

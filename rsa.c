@@ -103,8 +103,8 @@ void generate_keys(private_key* ku, public_key* kp)
     mpz_mod(tmp2, ku->q, ku->e);
     while(!mpz_cmp_ui(tmp2, 1))
       {
-	mpz_nextprime(ku->q, ku->q);
-	mpz_mod(tmp2, ku->q, ku->e);
+    mpz_nextprime(ku->q, ku->q);
+    mpz_mod(tmp2, ku->q, ku->e);
       }
   } while(mpz_cmp(ku->p, ku->q) == 0); /* If we have identical primes (unlikely), try again */
 
@@ -123,9 +123,9 @@ void generate_keys(private_key* ku, public_key* kp)
     mpz_gcd(tmpgcd, ku->e, phi);
     if (mpz_cmp_ui(tmpgcd, 1) != 0)
       {
-	// here, not so good.
-	printf("%s: Error, gcd(e,phi(n)) != 1\n",__FUNCTION__);
-	exit(0);
+    // here, not so good.
+    printf("%s: Error, gcd(e,phi(n)) != 1\n",__FUNCTION__);
+    exit(0);
       }
     mpz_clear(tmpgcd);
   }
@@ -184,7 +184,7 @@ int encrypt(char cipher[], char message[], int length, public_key kp)
       mess_block[i++] = 0x00;
       mess_block[i++] = 0x02;
       while(i < (BLOCK_SIZE - d_len - 1))
-	mess_block[i++] = (rand() % (0xFF - 1)) + 1;
+    mess_block[i++] = (rand() % (0xFF - 1)) + 1;
       mess_block[i++] = 0x00;
 
       /* Copy in the message */

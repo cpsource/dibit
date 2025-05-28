@@ -13,14 +13,14 @@ static int get_new_val ( PGM_CTX *pgm_ctx, TOP_CELL *me );
 
 #include "prime_table.c"
 
-#define ARG_INRANGE(arg,max) ({	 \
-      unsigned int v = arg;	 \
-      if ( v < 0 ) {		 \
-	v *= -1;		 \
-	v %= max;	         \
-	v = max - v;		 \
-      } else {	                 \
-	v %= max;		 \
+#define ARG_INRANGE(arg,max) ({  \
+      unsigned int v = arg;  \
+      if ( v < 0 ) {         \
+    v *= -1;         \
+    v %= max;            \
+    v = max - v;         \
+      } else {                   \
+    v %= max;        \
       }                          \
       v; })
 
@@ -64,13 +64,13 @@ void cell_init ( PGM_CTX *pgm_ctx, KEYBUF_3_ITERATOR *kb3_i )
 
       if ( !pgm_ctx->dibit_n_flag ) {
 
-	//printf("%s: %d,%d, k from getNKeyBits_3_iterator = 0x%08x\n",__FUNCTION__,x,y,k);
+    //printf("%s: %d,%d, k from getNKeyBits_3_iterator = 0x%08x\n",__FUNCTION__,x,y,k);
 
-	// and try to grab bits from the key_file.dat
-	k ^= key_file_multi_bit ( pgm_ctx, 32 );
+    // and try to grab bits from the key_file.dat
+    k ^= key_file_multi_bit ( pgm_ctx, 32 );
 
-	//printf("%s: %d,%d, k ^= key_file_multi_bit 0x%08x\n",__FUNCTION__,x,y,k);
-	
+    //printf("%s: %d,%d, k ^= key_file_multi_bit 0x%08x\n",__FUNCTION__,x,y,k);
+    
       }
 
       cell = get_cell ( pgm_ctx, x, y );
@@ -94,23 +94,23 @@ void cell_init ( PGM_CTX *pgm_ctx, KEYBUF_3_ITERATOR *kb3_i )
 
     for ( j = 0 ; j < 1024*4 + x_cnt; j++ ) {
       for ( v = i = 0 ; i < 32 ; i++ ) {
-	if ( get_new_val(pgm_ctx, &top_cell) ) v |= 1<<i;
+    if ( get_new_val(pgm_ctx, &top_cell) ) v |= 1<<i;
       } // for
     }
 
     // set hits to 0
     for ( i = 0 ; i < CELL_MAX ; i++ ) {
       for ( j = 0 ; j < CELL_MAX ; j++ ) {
-	cell = get_cell ( pgm_ctx, i, j );
-	cell->hits = 0;
+    cell = get_cell ( pgm_ctx, i, j );
+    cell->hits = 0;
       } // j
     } // i
     
   }
 
   if ( trace_flag > 1 ) printf("%s: bits_used = %d\n",
-			       __FUNCTION__,
-			       kb3_i->bits_used - bits_used);
+                   __FUNCTION__,
+                   kb3_i->bits_used - bits_used);
 
   // done
 }
@@ -298,9 +298,9 @@ unsigned int cell_get_bits ( PGM_CTX *pgm_ctx, TOP_CELL *top_cell, int bit_count
     static unsigned int zcnt = 0;
 
     printf("%s: returning 0x%08x, zcnt = %d\n",
-	   __FUNCTION__,
-	   v,
-	   ++zcnt);
+       __FUNCTION__,
+       v,
+       ++zcnt);
   }
 #endif
     
@@ -344,8 +344,8 @@ int main()
       cell = get_cell ( i, j );
 
       printf("%02d : %02d - hits %d, dx = %d, dy = %d, polarity = %d\n",
-	     i,j,cell->hits,
-	     cell->x_pos,cell->y_pos,cell->polarity);
+         i,j,cell->hits,
+         cell->x_pos,cell->y_pos,cell->polarity);
 
     } // j
   } // i

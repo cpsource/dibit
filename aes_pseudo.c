@@ -62,11 +62,11 @@ static void show_16 ( char *what, unsigned char *array )
   unsigned int *x = (unsigned int *)array;
 
   printf("%s: 0x%08x 0x%08x 0x%08x 0x%08x\n",
-	 what,
-	 x[0],
-	 x[1],
-	 x[2],
-	 x[3]);
+     what,
+     x[0],
+     x[1],
+     x[2],
+     x[3]);
 }
 #endif
 
@@ -157,27 +157,27 @@ unsigned int aes_pseudo_get_multi_bit ( AES_PSEUDO *aes_pseudo, int cnt )
   if ( cnt > 4 && 0 == (res & masks[cnt]) ) {
     res = 0;
     printf("%s: forced retry because res = 0x%08x, cnt = %d\n",
-	   __FUNCTION__,
-	   res,
-	   cnt);
+       __FUNCTION__,
+       res,
+       cnt);
     goto retry;
   }
   // reject all 1's for any request cnt > 4
   if ( cnt > 4 && masks[cnt] == (res & masks[cnt]) ) {
     res = 0;
     printf("%s: forced retry because res = 0x%08x, cnt = %d\n",
-	   __FUNCTION__,
-	   res,
-	   cnt);
+       __FUNCTION__,
+       res,
+       cnt);
     goto retry;
   }
 
   // trace for now
   if ( trace_flag > 1 ) {
     printf("%s: returning 0x%08x, cnt = %d\n",
-	   __FUNCTION__,
-	   res,
-	   cnt );
+       __FUNCTION__,
+       res,
+       cnt );
   }
 
   // done
