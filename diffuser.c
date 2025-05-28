@@ -27,17 +27,17 @@ static int get_local_rbit ( unsigned char *array, int bitno )
     if ( !(array[off]&bit_mask) ) {
       // count
       if ( i_bitno == bitno ) {
-	// found
-	ret = off*8 + bit;
-	array[off] |= bit_mask;
+    // found
+    ret = off*8 + bit;
+    array[off] |= bit_mask;
 #if 0
-	printf("%s: array[%5d ] = 0x%02x, ret = %d\n",
-	       __FUNCTION__,
-	       off,
-	       array[off],
-	       ret);
+    printf("%s: array[%5d ] = 0x%02x, ret = %d\n",
+           __FUNCTION__,
+           off,
+           array[off],
+           ret);
 #endif
-	break;
+    break;
       }
       i_bitno += 1;
     }
@@ -68,17 +68,17 @@ static int get_local_dibit ( unsigned char *array, int bitno )
     if ( !(array[off]&dibit_mask) ) {
       // count
       if ( i_bitno == bitno ) {
-	// found
-	ret = array[off]&bit_mask ? 1 : 0;
-	array[off] |= dibit_mask;
+    // found
+    ret = array[off]&bit_mask ? 1 : 0;
+    array[off] |= dibit_mask;
 
 #if defined(CP_TRACE)
-	  printf("%s: found bit, array[%d] = 0x%02x, bit_mask = 0x%02x, ret = %d\n",
-		 __FUNCTION__,
-		 off,array[off]&0xff,bit_mask,ret);
+      printf("%s: found bit, array[%d] = 0x%02x, bit_mask = 0x%02x, ret = %d\n",
+         __FUNCTION__,
+         off,array[off]&0xff,bit_mask,ret);
 #endif
 
-	break;
+    break;
       }
       i_bitno += 1;
     }
@@ -187,9 +187,9 @@ void diffuse_diffuse ( char *key, unsigned int fd, off_t small_entropy_start )
       dst [ i % sizeof(salt)  ] ^= key [ i % key_len ];
       // rotate left
       if ( 0x80 & dst [ i % sizeof(salt)  ] ) {
-	dst [ i % sizeof(salt)  ] = (dst [ i % sizeof(salt)  ] << 1) | 1;
+    dst [ i % sizeof(salt)  ] = (dst [ i % sizeof(salt)  ] << 1) | 1;
       } else {
-	dst [ i % sizeof(salt)  ] <<= 1;
+    dst [ i % sizeof(salt)  ] <<= 1;
       }
     }
   }
@@ -199,10 +199,10 @@ void diffuse_diffuse ( char *key, unsigned int fd, off_t small_entropy_start )
     int rounds = 17;
 
     sts = gcry_kdf_derive ( key,strlen(key),
-			    GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			    salt, sizeof(salt),
-			    rounds, // rounds
-			    sizeof(BS),&bs );
+                GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+                salt, sizeof(salt),
+                rounds, // rounds
+                sizeof(BS),&bs );
   }
 
   // run lfsr a bit
@@ -251,10 +251,10 @@ void diffuse_diffuse ( char *key, unsigned int fd, off_t small_entropy_start )
 
     if ( trace_flag > 1 )
       printf("%s: small_cnt_remaining = %5d, big_off = %5d, big_bit_no = %d\n",
-	     __FUNCTION__,
-	     small_cnt_remaining,
-	     (int)big_off,
-	     (int)big_bit_no);
+         __FUNCTION__,
+         small_cnt_remaining,
+         (int)big_off,
+         (int)big_bit_no);
 
     small_bit_val = get_local_dibit ( small_dibit, small_bit_in );
 
@@ -355,9 +355,9 @@ void diffuse_un_diffuse ( char *key, unsigned int fd, off_t small_entropy_start 
       dst [ i % sizeof(salt)  ] ^= key [ i % key_len ];
       // rotate left
       if ( 0x80 & dst [ i % sizeof(salt)  ] ) {
-	dst [ i % sizeof(salt)  ] = (dst [ i % sizeof(salt)  ] << 1) | 1;
+    dst [ i % sizeof(salt)  ] = (dst [ i % sizeof(salt)  ] << 1) | 1;
       } else {
-	dst [ i % sizeof(salt)  ] <<= 1;
+    dst [ i % sizeof(salt)  ] <<= 1;
       }
     }
   }
@@ -367,10 +367,10 @@ void diffuse_un_diffuse ( char *key, unsigned int fd, off_t small_entropy_start 
     int rounds = 17;
 
     sts = gcry_kdf_derive ( key,strlen(key),
-			    GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			    salt, sizeof(salt),
-			    rounds, // rounds
-			    sizeof(BS),&bs );
+                GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+                salt, sizeof(salt),
+                rounds, // rounds
+                sizeof(BS),&bs );
   }
 
   // run lfsr a bit
@@ -417,10 +417,10 @@ void diffuse_un_diffuse ( char *key, unsigned int fd, off_t small_entropy_start 
 
     if ( trace_flag > 1 )
       printf("%s: small_cnt_remaining = %5d, big_off = %5d, big_bit_no = %d\n",
-	     __FUNCTION__,
-	     small_cnt_remaining,
-	     (int)big_off,
-	     (int)big_bit_no);
+         __FUNCTION__,
+         small_cnt_remaining,
+         (int)big_off,
+         (int)big_bit_no);
 
     small_bit_val = get_local_dibit ( small_dibit, small_bit_out );
 
@@ -470,13 +470,13 @@ void diffuser_test ( char *key )
 
   // diffuse
   diffuse_diffuse ( key,
-		    fd,
-		    256 );
+            fd,
+            256 );
 
   // un_diffuse
   diffuse_un_diffuse ( key,
-		       fd,
-		       256 );
+               fd,
+               256 );
 
   // make sure it all came back
   rw(mf_lseek,fd,256,SEEK_SET);
@@ -484,7 +484,7 @@ void diffuser_test ( char *key )
     rw(mf_read,fd,&d,1);
     if ( d != 0 ) {
       printf("failed at %d, expected 0, received 0x%02x\n",
-	     i,d&0xff);
+         i,d&0xff);
     }
   }
 
@@ -494,7 +494,7 @@ void diffuser_test ( char *key )
     rw(mf_read,fd,&d,1);
     if ( d != 0xff ) {
       printf("failed at %d, expected 0xff, received 0x%02x\n",
-	     i,d&0xff);
+         i,d&0xff);
     }
   }
 

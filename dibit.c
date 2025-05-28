@@ -61,7 +61,7 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 
     for ( i = 0 ; i < argc ; i++ ) {
       printf("argv[%02d] = <%s>\n",
-	     i,argv[i]);
+         i,argv[i]);
     }
   }
 #endif
@@ -79,38 +79,38 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
     switch ( getopt(argc,argv,"a:nhdzk:f:t:") )
       {
       case 'a':
-	pgm_ctx->dibit_a_flag = 1;
-	m_key = strdup ( optarg );
-	a_flag = strdup ( optarg );
-	break;
+    pgm_ctx->dibit_a_flag = 1;
+    m_key = strdup ( optarg );
+    a_flag = strdup ( optarg );
+    break;
       case 'n':
-	// no key_file.dat
-	pgm_ctx->dibit_n_flag = 1;
-	break;
-	// set trace level
+    // no key_file.dat
+    pgm_ctx->dibit_n_flag = 1;
+    break;
+    // set trace level
       case 't':
-	trace_flag = atoi(optarg);
-	break;
+    trace_flag = atoi(optarg);
+    break;
       case 'h':
-	printf("Usage: %s [-a \"key\"] [-f \"file\"] [-z] [-k \"key string\"] [-d]\n",argv[0]);
-	exit(0);
-	break;
+    printf("Usage: %s [-a \"key\"] [-f \"file\"] [-z] [-k \"key string\"] [-d]\n",argv[0]);
+    exit(0);
+    break;
       case 'f':
-	f_flag = strdup ( optarg );
-	//printf("%s: f_flag = <%s>\n",__FUNCTION__,f_flag);
-	break;
+    f_flag = strdup ( optarg );
+    //printf("%s: f_flag = <%s>\n",__FUNCTION__,f_flag);
+    break;
       case 'k':
-	k_flag = strdup ( optarg );
-	//printf("%s: k_flag = <%s>\n",__FUNCTION__,k_flag);
-	break;
+    k_flag = strdup ( optarg );
+    //printf("%s: k_flag = <%s>\n",__FUNCTION__,k_flag);
+    break;
       case 'z':
-	pgm_ctx->dibit_z_flag = 1;
-	break;
+    pgm_ctx->dibit_z_flag = 1;
+    break;
       case 'd':
-	pgm_ctx->dibit_d_flag = 1;
-	break;
+    pgm_ctx->dibit_d_flag = 1;
+    break;
       case -1:
-	goto getopt_finis;
+    goto getopt_finis;
       }
   }
  getopt_finis:;
@@ -122,10 +122,10 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
   }
   if ( -1 == fd_in ) {
     printf("%s:%d: Error, can't open <%s>, errno = %d, strerror = <%s>\n",
-	   __FUNCTION__,__LINE__,
-	   f_flag,
-	   errno,
-	   strerror(errno));
+       __FUNCTION__,__LINE__,
+       f_flag,
+       errno,
+       strerror(errno));
     exit(0);
   }
 
@@ -161,11 +161,11 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
     if ( trace_flag > 1 ) printf("calling crypto_aes_set_key\n");
 
     sts = crypto_aes_set_key( &pgm_ctx->pgm_ctx_aes_a.crypto_aes_ctx,
-			      pgm_ctx->pgm_ctx_aes_a.crypto_aes_key, AES_KEYSIZE_128 );
+                  pgm_ctx->pgm_ctx_aes_a.crypto_aes_key, AES_KEYSIZE_128 );
     if ( sts ) {
       printf("%s: Error, crypto_aes_set_key failed with error %d\n",
-	     __FUNCTION__,
-	     sts);
+         __FUNCTION__,
+         sts);
       exit(0);
     }
   }
@@ -182,11 +182,11 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
     if ( trace_flag > 1 ) printf("calling crypto_aes_set_key\n");
 
     sts = crypto_aes_set_key( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-			      pgm_ctx->pgm_ctx_aes_b.crypto_aes_key, AES_KEYSIZE_128 );
+                  pgm_ctx->pgm_ctx_aes_b.crypto_aes_key, AES_KEYSIZE_128 );
     if ( sts ) {
       printf("%s: Error, crypto_aes_set_key failed with error %d\n",
-	     __FUNCTION__,
-	     sts);
+         __FUNCTION__,
+         sts);
       exit(0);
     }
   }
@@ -215,16 +215,16 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 
   // get controller pseudo-random source
   init_dual_lfsr_from_key ( pgm_ctx,
-			    &pgm_ctx->controller_pseudo_random_sequence,
-			    &pgm_ctx->dibit_kb3_i );
+                &pgm_ctx->controller_pseudo_random_sequence,
+                &pgm_ctx->dibit_kb3_i );
   // get second pseudo-random source
   init_dual_lfsr_from_key ( pgm_ctx,
-			    &pgm_ctx->second_pseudo_random_sequence,
-			    &pgm_ctx->dibit_kb3_i );
+                &pgm_ctx->second_pseudo_random_sequence,
+                &pgm_ctx->dibit_kb3_i );
   // get third pseudo-random source
   init_dual_lfsr_from_key ( pgm_ctx,
-			    &pgm_ctx->third_pseudo_random_sequence,
-			    &pgm_ctx->dibit_kb3_i );
+                &pgm_ctx->third_pseudo_random_sequence,
+                &pgm_ctx->dibit_kb3_i );
 
 #if defined(USE_AES)
   pgm_ctx->aes_pseudo_controller = (AES_PSEUDO *)malloc(sizeof(AES_PSEUDO));
@@ -232,8 +232,8 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
   memset(pgm_ctx->aes_pseudo_controller,0,sizeof(AES_PSEUDO));
 
   aes_pseudo_bind ( &pgm_ctx->controller_pseudo_random_sequence,
-		    &pgm_ctx->pgm_ctx_aes_a,
-		    pgm_ctx->aes_pseudo_controller );
+            &pgm_ctx->pgm_ctx_aes_a,
+            pgm_ctx->aes_pseudo_controller );
 
 #define GET_PSEUDO_CONTROLLER_BITS(cnt) aes_pseudo_get_multi_bit ( pgm_ctx->aes_pseudo_controller, cnt )
 
@@ -258,9 +258,9 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
     int sts = mf_fstat(fd_in,&sb);
     if ( sts < 0 ) {
       printf("%s: Error fstat(fd,&sb) failed with errno = %d, strerror = <%s>\n",
-	     __FUNCTION__,
-	     errno,
-	     strerror(errno));
+         __FUNCTION__,
+         errno,
+         strerror(errno));
       exit(0);
     }
     // Note: remaining_cleartext is just that for encoding, but
@@ -298,23 +298,23 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       // no - get next file from file system
       for ( trial = 0 ; trial < (BASE_DIBIT_FILE_MAX+1) ; trial++ ) {
 
-	sprintf(namebuf,BASE_DIBIT_FILE_SPEC,trial);
-	
-	trial_sts = stat ( namebuf, &trial_sb );
-	if ( trial_sts < 0 ) {
-	  fd_out = mf_open ( namebuf, O_RDWR | O_CREAT | O_TRUNC , 0600 );
-	  
-	  if ( trace_flag ) printf("We are creating output file = <%s>\n",namebuf);
-	  
-	  break;
-	}
+    sprintf(namebuf,BASE_DIBIT_FILE_SPEC,trial);
+    
+    trial_sts = stat ( namebuf, &trial_sb );
+    if ( trial_sts < 0 ) {
+      fd_out = mf_open ( namebuf, O_RDWR | O_CREAT | O_TRUNC , 0600 );
+      
+      if ( trace_flag ) printf("We are creating output file = <%s>\n",namebuf);
+      
+      break;
+    }
       }
     }
 
     // make sure we were able to create a file
     if ( -1 == fd_out ) {
       printf("Error, can not create ciphertext file\n"
-	     "Please delete some in this directory and try again.\n");
+         "Please delete some in this directory and try again.\n");
       exit(0);
     }
   }
@@ -345,8 +345,8 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       //
 
       if ( trace_flag > 1 )
-	printf("%s:%d: writing k_flag = <%s>\n",
-	       __FUNCTION__,__LINE__,k_flag);
+    printf("%s:%d: writing k_flag = <%s>\n",
+           __FUNCTION__,__LINE__,k_flag);
 
       // out goes the key and a \0
       mf_write(mrec,k_flag,strlen(k_flag) + 1 );
@@ -359,8 +359,8 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 
 #if 0
       {
-	printf("%s:%d: saved pgm_ctx->key_file_saved_bits\n",__FUNCTION__,__LINE__);
-	debug_show_block ( pgm_ctx->key_file_saved_bits, pgm_ctx->key_file_saved_bits_cnt);
+    printf("%s:%d: saved pgm_ctx->key_file_saved_bits\n",__FUNCTION__,__LINE__);
+    debug_show_block ( pgm_ctx->key_file_saved_bits, pgm_ctx->key_file_saved_bits_cnt);
       }
 #endif
 
@@ -373,48 +373,48 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       //
 
       if ( trace_flag > 1 ) {
-	printf("mrec size/16 = %d\n",(int)mrec_sb.st_size/16);
-	printf("%s:%d: aes_cfb_init with mkey <%s>\n",
-	       __FUNCTION__,__LINE__,m_key);
+    printf("mrec size/16 = %d\n",(int)mrec_sb.st_size/16);
+    printf("%s:%d: aes_cfb_init with mkey <%s>\n",
+           __FUNCTION__,__LINE__,m_key);
       }
 
       aes_cfb_init ( pgm_ctx,
-		     &aes_cfb,
-		     m_key );
+             &aes_cfb,
+             m_key );
 
       aes_cfb_encrypt ( pgm_ctx,
-			&aes_cfb,
-			mrec_sb.st_size / AES_BLOCK_SIZE,
-			mf_get_data_ptr ( mrec ),
-			mf_get_data_ptr ( mrec ));
+            &aes_cfb,
+            mrec_sb.st_size / AES_BLOCK_SIZE,
+            mf_get_data_ptr ( mrec ),
+            mf_get_data_ptr ( mrec ));
       //
       // encode mrec with dibit
       //
       {
-	int largc;
-	char *largv[ 4 ];
-	char lbuf [ 256 ];
-	int x;
-	char *c = lbuf;
+    int largc;
+    char *largv[ 4 ];
+    char lbuf [ 256 ];
+    int x;
+    char *c = lbuf;
 
-	largc = 4;
+    largc = 4;
 
-	x = sprintf(c,"%s",argv[0]);
-	largv [ 0 ] = c;
-	c += x + 1;
+    x = sprintf(c,"%s",argv[0]);
+    largv [ 0 ] = c;
+    c += x + 1;
 
-	x = sprintf(c,"-n");
-	largv [ 1 ] = c;
-	c += x + 1;
+    x = sprintf(c,"-n");
+    largv [ 1 ] = c;
+    c += x + 1;
 
-	x = sprintf(c,"-k");
-	largv [ 2 ] = c;
-	c += x + 1;
+    x = sprintf(c,"-k");
+    largv [ 2 ] = c;
+    c += x + 1;
 
-	sprintf(c,"%s",m_key);
-	largv [ 3 ] = c;
+    sprintf(c,"%s",m_key);
+    largv [ 3 ] = c;
 
-	dibit_main ( largc, largv, mrec, mrec_out );
+    dibit_main ( largc, largv, mrec, mrec_out );
       }
 
       // to front of file
@@ -424,10 +424,10 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
 
 #if 0
       {
-	printf("%s:%d: after dibit encryption, mrec_out size = %d bytes\n",
-	       __FUNCTION__,__LINE__,
-	       (int)mrec_sb.st_size);
-	debug_show_block ( mf_get_data_ptr(mrec_out),mrec_sb.st_size);
+    printf("%s:%d: after dibit encryption, mrec_out size = %d bytes\n",
+           __FUNCTION__,__LINE__,
+           (int)mrec_sb.st_size);
+    debug_show_block ( mf_get_data_ptr(mrec_out),mrec_sb.st_size);
       }
 #endif
 
@@ -435,13 +435,13 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       // marker -> fd_out
       //
       {
-	unsigned char marker [ AES_BLOCK_SIZE ];
+    unsigned char marker [ AES_BLOCK_SIZE ];
 
-	memset(marker,0,AES_BLOCK_SIZE);
+    memset(marker,0,AES_BLOCK_SIZE);
 
-	mf_lseek(fd_out,0,SEEK_END);
+    mf_lseek(fd_out,0,SEEK_END);
 
-	rw(mf_write,fd_out,marker,AES_BLOCK_SIZE);
+    rw(mf_write,fd_out,marker,AES_BLOCK_SIZE);
       }
 
       //
@@ -453,9 +453,9 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       mf_fstat(mrec_out,&mrec_sb);
 
       rw(mf_write,
-	 fd_out,
-	 mf_get_data_ptr ( mrec_out ),
-	 mrec_sb.st_size);
+     fd_out,
+     mf_get_data_ptr ( mrec_out ),
+     mrec_sb.st_size);
 
       //
       // handle terminis 100000.... to
@@ -465,48 +465,48 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       mf_lseek(fd_out,0,SEEK_END);
 
       {
-	struct stat sb;
-	unsigned char d [ AES_BLOCK_SIZE ];
-	int z;
+    struct stat sb;
+    unsigned char d [ AES_BLOCK_SIZE ];
+    int z;
 
-	mf_fstat(fd_out,&sb);
+    mf_fstat(fd_out,&sb);
 
-	if ( !(z=(sb.st_size % AES_BLOCK_SIZE)) ) {
-	  unsigned char last_byte;
+    if ( !(z=(sb.st_size % AES_BLOCK_SIZE)) ) {
+      unsigned char last_byte;
 
-	  // add 1, then 15 0's
-	  // but only if last byte is 0x01
+      // add 1, then 15 0's
+      // but only if last byte is 0x01
 
-	  mf_lseek(fd_out,-1,SEEK_END);
-	  rw(mf_read,fd_out,&last_byte,1);
-	  if ( 0x01 == last_byte ) {
-	    memset(d,0,AES_BLOCK_SIZE);
-	    d[0] = 1;
+      mf_lseek(fd_out,-1,SEEK_END);
+      rw(mf_read,fd_out,&last_byte,1);
+      if ( 0x01 == last_byte ) {
+        memset(d,0,AES_BLOCK_SIZE);
+        d[0] = 1;
 
-	    rw(mf_write,
-	       fd_out,
-	       d,AES_BLOCK_SIZE);
-	    
-	    if ( trace_flag > 1 ) printf("%s: wrote full 10000.... block\n",__FUNCTION__);
-	  } else {
-	    if ( trace_flag > 1 ) printf("%s: no 10000.... pad needed\n",__FUNCTION__);
-	  }
+        rw(mf_write,
+           fd_out,
+           d,AES_BLOCK_SIZE);
+        
+        if ( trace_flag > 1 ) printf("%s: wrote full 10000.... block\n",__FUNCTION__);
+      } else {
+        if ( trace_flag > 1 ) printf("%s: no 10000.... pad needed\n",__FUNCTION__);
+      }
 
-	} else {
-	  // write some portion out
-	  int cnt;
+    } else {
+      // write some portion out
+      int cnt;
 
-	  memset(d,0,AES_BLOCK_SIZE);
-	  d[0] = 1;
+      memset(d,0,AES_BLOCK_SIZE);
+      d[0] = 1;
 
-	  cnt = AES_BLOCK_SIZE - z;
+      cnt = AES_BLOCK_SIZE - z;
 
-	  rw(mf_write,
-	     fd_out,
-	     d,cnt);
+      rw(mf_write,
+         fd_out,
+         d,cnt);
 
-	  if ( trace_flag > 1 ) printf("%s: wrote %d  10000.... block\n",__FUNCTION__,cnt);
-	}
+      if ( trace_flag > 1 ) printf("%s: wrote %d  10000.... block\n",__FUNCTION__,cnt);
+    }
       }
 
       mf_lseek(fd_out,0,SEEK_END);
@@ -515,80 +515,80 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
       // encrypt fd_out
       //
       {
-	// so now that the entire output file is written,
-	// and a multiple of AES_BLOCK_SIZE,
-	// lets encrypt it with aes_cfb
+    // so now that the entire output file is written,
+    // and a multiple of AES_BLOCK_SIZE,
+    // lets encrypt it with aes_cfb
 
-	struct stat sb;
-	unsigned char work_buf [ AES_BLOCK_SIZE ];
-	off_t blk_cnt;
-	off_t blk;
+    struct stat sb;
+    unsigned char work_buf [ AES_BLOCK_SIZE ];
+    off_t blk_cnt;
+    off_t blk;
 
-	mf_fstat(fd_out,&sb);
+    mf_fstat(fd_out,&sb);
 
-	blk_cnt = sb.st_size / AES_BLOCK_SIZE;
-	blk     = 0;
+    blk_cnt = sb.st_size / AES_BLOCK_SIZE;
+    blk     = 0;
        
-	aes_cfb_init ( pgm_ctx,
-		       &aes_cfb,
-		       m_key );
+    aes_cfb_init ( pgm_ctx,
+               &aes_cfb,
+               m_key );
 
-	if ( trace_flag > 1 ) {
-	  printf("%s: AES CFB encrypting fd_out, blk_cnt = %d\n",
-		 __FUNCTION__,
-		 (int)(sb.st_size / AES_BLOCK_SIZE));
-	}
+    if ( trace_flag > 1 ) {
+      printf("%s: AES CFB encrypting fd_out, blk_cnt = %d\n",
+         __FUNCTION__,
+         (int)(sb.st_size / AES_BLOCK_SIZE));
+    }
 
-	mf_lseek(fd_out, 0, SEEK_SET );
-	while ( blk_cnt > 0 ) {
-	  rw(mf_read,fd_out,work_buf,AES_BLOCK_SIZE);
+    mf_lseek(fd_out, 0, SEEK_SET );
+    while ( blk_cnt > 0 ) {
+      rw(mf_read,fd_out,work_buf,AES_BLOCK_SIZE);
 
 #if defined(USE_LAST_BLOCK)
-	  if ( 1 == blk_cnt )
-	    last_block_obscure ( work_buf, m_key );
-	  else
+      if ( 1 == blk_cnt )
+        last_block_obscure ( work_buf, m_key );
+      else
 #endif
-	    aes_cfb_encrypt ( pgm_ctx,
-			      &aes_cfb,
-			      1,
-			      work_buf,
-			      work_buf);
+        aes_cfb_encrypt ( pgm_ctx,
+                  &aes_cfb,
+                  1,
+                  work_buf,
+                  work_buf);
 
-	  mf_lseek(fd_out, -AES_BLOCK_SIZE, SEEK_CUR );
-	  rw(mf_write,fd_out,work_buf,AES_BLOCK_SIZE);
+      mf_lseek(fd_out, -AES_BLOCK_SIZE, SEEK_CUR );
+      rw(mf_write,fd_out,work_buf,AES_BLOCK_SIZE);
 
-	  blk_cnt -= 1;
-	  blk += 1;
-	}
+      blk_cnt -= 1;
+      blk += 1;
+    }
 
 #if 0
-	{
-	  char abuf [ AES_BLOCK_SIZE ];
-	  mf_lseek(fd_out,0,SEEK_SET);
-	  rw(mf_read,fd_out,abuf,AES_BLOCK_SIZE);
+    {
+      char abuf [ AES_BLOCK_SIZE ];
+      mf_lseek(fd_out,0,SEEK_SET);
+      rw(mf_read,fd_out,abuf,AES_BLOCK_SIZE);
 
-	  printf("%s:%d: first block before wabbit encrypt\n",
-		 __FUNCTION__,__LINE__);
-	  debug_show_block ( abuf, AES_BLOCK_SIZE );
-	}
+      printf("%s:%d: first block before wabbit encrypt\n",
+         __FUNCTION__,__LINE__);
+      debug_show_block ( abuf, AES_BLOCK_SIZE );
+    }
 #endif
 
-	if ( trace_flag > 1 ) printf("%s: AES_CFB encryption complete\n",__FUNCTION__);
+    if ( trace_flag > 1 ) printf("%s: AES_CFB encryption complete\n",__FUNCTION__);
 
-	// calc sha1, add sha1 to eof and encrypt the file with wabbit
-	wabbit_gen ( m_key, fd_out );
+    // calc sha1, add sha1 to eof and encrypt the file with wabbit
+    wabbit_gen ( m_key, fd_out );
 
 #if 0
-	{
-	  printf("%s:%d: before encrypt\n",
-		 __FUNCTION__,__LINE__);
-	  debug_show_block ( m, AES_BLOCK_SIZE );
-	}
-	{
-	  printf("%s:%d: after encrypt\n",
-		 __FUNCTION__,__LINE__);
-	  debug_show_block ( m, AES_BLOCK_SIZE );
-	}
+    {
+      printf("%s:%d: before encrypt\n",
+         __FUNCTION__,__LINE__);
+      debug_show_block ( m, AES_BLOCK_SIZE );
+    }
+    {
+      printf("%s:%d: after encrypt\n",
+         __FUNCTION__,__LINE__);
+      debug_show_block ( m, AES_BLOCK_SIZE );
+    }
 #endif
       }
 
@@ -602,8 +602,8 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
     if ( pgm_ctx->dibit_z_flag ) {
       // get rid of used key bits in key_file.dat
       key_file_truncate ( pgm_ctx,
-			  pgm_ctx->key_file_offset_start,                               /* hole start */
-			  pgm_ctx->key_file_offset - pgm_ctx->key_file_offset_start + 1 /* hole size  */ );
+              pgm_ctx->key_file_offset_start,                               /* hole start */
+              pgm_ctx->key_file_offset - pgm_ctx->key_file_offset_start + 1 /* hole size  */ );
     }
 
   } // if -a && ! -d
@@ -624,9 +624,9 @@ int dibit_main ( int argc, char *argv[], unsigned int file_in, unsigned int file
     rename ( mkstemp_file, burried_output_file );
 
     printf("%s: renamed <%s> as <%s>\n",
-	   __FUNCTION__,
-	   mkstemp_file,
-	   burried_output_file);
+       __FUNCTION__,
+       mkstemp_file,
+       burried_output_file);
 
     // get rid of burried_output_file, but zero it first
     q = strlen(burried_output_file);

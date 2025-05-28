@@ -94,8 +94,8 @@ void bbs_pseudo_init ( PGM_CTX *pgm_ctx )
 
     for ( i = 0 ; i < KEYBUF_128_SIZE/AES_BLOCK_SIZE ; i++, kc += AES_BLOCK_SIZE ) {
       aes_encrypt( &pgm_ctx->pgm_ctx_aes_b.crypto_aes_ctx,
-		   pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
-		   kc);
+           pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,
+           kc);
       memcpy(kc,pgm_ctx->pgm_ctx_aes_b.crypto_aes_register_a,AES_BLOCK_SIZE);
     }
   }
@@ -128,11 +128,11 @@ void bbs_pseudo_init ( PGM_CTX *pgm_ctx )
     while ( 1 ) {
       mpz_gcd(tmpgcd, bbs->blumint, bbs->x);
       if (mpz_cmp_ui(tmpgcd, 1) != 0)
-	{
-	  // here, not so good, try again
-	  mpz_add_ui(bbs->x,bbs->x,1);
-	  continue;
-	}
+    {
+      // here, not so good, try again
+      mpz_add_ui(bbs->x,bbs->x,1);
+      continue;
+    }
       break;
     }
 
@@ -148,8 +148,8 @@ void bbs_pseudo_init ( PGM_CTX *pgm_ctx )
   // display if necessary
   if ( trace_flag > 1 ) {
     printf("\n%s: bbs->key_bitlen = %d\n",
-	   __FUNCTION__,
-	   bbs->key_bitlen);
+       __FUNCTION__,
+       bbs->key_bitlen);
     gmp_printf ("p      : %Zx\n", p);
     gmp_printf ("q      : %Zx\n", q);
     gmp_printf ("x[0]   : %Zx\n", bbs->x);
@@ -177,34 +177,34 @@ void rndbbs_randbytes(PGM_CTX *pgm_ctx, char *retbuf, size_t nbytes)
   if ( bbs->xor_urandom )
     {
       if ( (urandom_buffer = (char *) malloc(nbytes)) == NULL)
-	{
-	  perror(FUNC_NAME ": malloc");
-	  return;
-	}
+    {
+      perror(FUNC_NAME ": malloc");
+      return;
+    }
 
       {
-	int i;
-	int j;
-	unsigned int r;
+    int i;
+    int j;
+    unsigned int r;
 
-	r = nrand48(pgm_ctx->xsubi);
-	for ( j = 0, i = 0 ; i < nbytes ; i++ ) {
-	  if ( j > 3 ) {
-	    j = 0;
-	    r = nrand48(pgm_ctx->xsubi);
-	  }
-	  urandom_buffer [ i ] = (unsigned char)r;
-	  r >>= 8;
-	  j += 1;
-	}
+    r = nrand48(pgm_ctx->xsubi);
+    for ( j = 0, i = 0 ; i < nbytes ; i++ ) {
+      if ( j > 3 ) {
+        j = 0;
+        r = nrand48(pgm_ctx->xsubi);
+      }
+      urandom_buffer [ i ] = (unsigned char)r;
+      r >>= 8;
+      j += 1;
+    }
       }
 
 #if 0
       if ( _urandread(urandom_buffer, nbytes) != nbytes )
-	{
-	  perror(FUNC_NAME ": _urandread: continuting...");
-	  bbs->xor_urandom = 0;
-	}
+    {
+      perror(FUNC_NAME ": _urandread: continuting...");
+      bbs->xor_urandom = 0;
+    }
 #endif
     }
 
@@ -214,26 +214,26 @@ void rndbbs_randbytes(PGM_CTX *pgm_ctx, char *retbuf, size_t nbytes)
     {
       /* basic implementation without improvements (only keep parity) */
       {
-	int i;
-	for (i=0;i<nbytes;i++)
-	  {
-	    int j;
+    int i;
+    for (i=0;i<nbytes;i++)
+      {
+        int j;
 
-	    /* we keep the parity (least significant bit) of each x_n */
-	    for (j=7;j>=0;j--)
-	      {
-		/* x[n+1] = x[n]^2 (mod blumint) */
-		mpz_powm_ui(bbs->x, bbs->x, 2, bbs->blumint);
+        /* we keep the parity (least significant bit) of each x_n */
+        for (j=7;j>=0;j--)
+          {
+        /* x[n+1] = x[n]^2 (mod blumint) */
+        mpz_powm_ui(bbs->x, bbs->x, 2, bbs->blumint);
 
-		/* mpz_fdiv_ui(bbs->x, 2) == mpz_tstbit(bbs->x, 0) */
-		retbuf[i] |= (mpz_tstbit(bbs->x, 0) << j);
-	      }
-	    if (bbs->xor_urandom)
-	      retbuf[i] ^= urandom_buffer[i];
-	  }
-	if ( urandom_buffer != NULL )
-	  free(urandom_buffer);
-	return;
+        /* mpz_fdiv_ui(bbs->x, 2) == mpz_tstbit(bbs->x, 0) */
+        retbuf[i] |= (mpz_tstbit(bbs->x, 0) << j);
+          }
+        if (bbs->xor_urandom)
+          retbuf[i] ^= urandom_buffer[i];
+      }
+    if ( urandom_buffer != NULL )
+      free(urandom_buffer);
+    return;
       }
     }
   else
@@ -244,38 +244,38 @@ void rndbbs_randbytes(PGM_CTX *pgm_ctx, char *retbuf, size_t nbytes)
       unsigned int byte=0, bit=0, i;
 
       for (;;)
-	{
-	  //printf("%s: calculating x[n+1], loglogblum = %d\n",
-	  //__FUNCTION__,loglogblum);
-	  
-	  /* x[n+1] = x[n]^2 (mod blumint) */
-	  mpz_powm_ui(bbs->x, bbs->x, 2, bbs->blumint);
+    {
+      //printf("%s: calculating x[n+1], loglogblum = %d\n",
+      //__FUNCTION__,loglogblum);
+      
+      /* x[n+1] = x[n]^2 (mod blumint) */
+      mpz_powm_ui(bbs->x, bbs->x, 2, bbs->blumint);
 
-	  for (i=0;i<loglogblum;i++)
-	    {
-	      if (byte == nbytes)
-		{
-		  if ( urandom_buffer != NULL )
-		    free(urandom_buffer);
-		  return;
-		}
+      for (i=0;i<loglogblum;i++)
+        {
+          if (byte == nbytes)
+        {
+          if ( urandom_buffer != NULL )
+            free(urandom_buffer);
+          return;
+        }
 
-	      /* get the ith bit of x */
-	      retbuf[byte] |= (mpz_tstbit(bbs->x, i) << (7-bit) );
+          /* get the ith bit of x */
+          retbuf[byte] |= (mpz_tstbit(bbs->x, i) << (7-bit) );
 
-	      if (bit == 7)
-		{
-		  if (bbs->xor_urandom)
-		    retbuf[byte] ^= urandom_buffer[byte];
-		  byte++;
-		  bit=0;
-		}
-	      else
-		{
-		  bit++;
-		}
-	    }
-	}
+          if (bit == 7)
+        {
+          if (bbs->xor_urandom)
+            retbuf[byte] ^= urandom_buffer[byte];
+          byte++;
+          bit=0;
+        }
+          else
+        {
+          bit++;
+        }
+        }
+    }
     }
 }
 
@@ -335,9 +335,9 @@ unsigned int bbs_pseudo_get_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
     res = 0;
     if ( trace_flag > 1 )
       printf("%s: forced retry because res = 0x%08x, cnt = %d\n",
-	     __FUNCTION__,
-	     res,
-	     cnt);
+         __FUNCTION__,
+         res,
+         cnt);
     goto retry;
   }
   // reject all 1's for any request cnt > 4
@@ -345,9 +345,9 @@ unsigned int bbs_pseudo_get_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
     res = 0;
     if ( trace_flag > 1 )
       printf("%s: forced retry because res = 0x%08x, cnt = %d\n",
-	     __FUNCTION__,
-	     res,
-	     cnt);
+         __FUNCTION__,
+         res,
+         cnt);
     goto retry;
   }
 

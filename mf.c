@@ -1,4 +1,4 @@
-// mf - memory file - mimics open/close/read/writre execpt in memory
+// mf - memory file - mimics open/close/read/write except in memory
 
 #include <sys/mman.h>
 
@@ -22,12 +22,12 @@ typedef struct mf_struct_t {
   int mf_real_fd;           // if its a real file, the fd is here
 } MF;
 
-#define min(a,b) ({	\
+#define min(a,b) ({ \
       int v = a; \
       if ( b < v ) v = b; \
       v; })
 
-#define max(a,b) ({	\
+#define max(a,b) ({ \
       int v = a; \
       if ( b > v ) v = b; \
       v; })
@@ -114,16 +114,16 @@ unsigned char *mf_get_data_ptr ( unsigned int mf_fd )
     } else {
       // no, just return ptr
       if ( mf->mf_addr ) {
-	return mf->mf_addr;
+    return mf->mf_addr;
       }
     }
     mf->mf_len = (size_t)sb.st_size;
     mf->mf_addr = mmap ( NULL,
-		      mf->mf_len,
-		      PROT_READ | PROT_WRITE,
-		      MAP_PRIVATE,
-		      mf->mf_real_fd,
-		      0 );
+              mf->mf_len,
+              PROT_READ | PROT_WRITE,
+              MAP_PRIVATE,
+              mf->mf_real_fd,
+              0 );
     return &mf->mf_addr [ mf->mf_offset ];
   }
 
@@ -171,25 +171,25 @@ unsigned int mf_lseek ( unsigned int mf_fd, off_t offset, int flag )
     case SEEK_SET:
       mf->mf_offset = offset;
       if ( mf->mf_offset > mf->mf_data_max ) {
-	mf->mf_offset = mf->mf_data_max-1;
+    mf->mf_offset = mf->mf_data_max-1;
       } else {
-	if ( mf->mf_offset < 0 ) {
-	  mf->mf_offset = 0;
-	}
+    if ( mf->mf_offset < 0 ) {
+      mf->mf_offset = 0;
+    }
       }
       break;
 
     case SEEK_CUR:
       mf->mf_offset += offset;
       if ( mf->mf_offset > mf->mf_data_max ) {
-	mf->mf_offset = mf->mf_data_max-1;
+    mf->mf_offset = mf->mf_data_max-1;
       }
       break;
 
     case SEEK_END:
       mf->mf_offset = mf->st_size + offset;
       if ( mf->mf_offset < 0 ) {
-	mf->mf_offset = 0;
+    mf->mf_offset = 0;
       }
       break;
     }
@@ -241,10 +241,10 @@ unsigned int mf_open ( char *name, int flags, int initial_size )
 
   if ( trace_flag > 1 )
     printf("%s: entry, name = <%s>, flags = 0x%x, initial_size = %d 0x%08x\n",
-	   __FUNCTION__,
-	   name,
-	   flags,
-	   initial_size,initial_size);
+       __FUNCTION__,
+       name,
+       flags,
+       initial_size,initial_size);
 
   if ( flags & O_CREAT ) {
     // a real open
@@ -252,8 +252,8 @@ unsigned int mf_open ( char *name, int flags, int initial_size )
 
     if ( trace_flag > 1 )
       printf("%s: mf->mf_real_fd = %d\n",
-	     __FUNCTION__,
-	     mf->mf_real_fd);
+         __FUNCTION__,
+         mf->mf_real_fd);
 
     return mf->mf_real_fd != -1 ? (unsigned int)mf : -1;
   } else {
@@ -262,9 +262,9 @@ unsigned int mf_open ( char *name, int flags, int initial_size )
       mf->mf_real_fd = open ( name, flags );
 
       if ( trace_flag > 1 )
-	printf("%s: mf->mf_real_fd = %d\n",
-	       __FUNCTION__,
-	       mf->mf_real_fd);
+    printf("%s: mf->mf_real_fd = %d\n",
+           __FUNCTION__,
+           mf->mf_real_fd);
       
       return mf->mf_real_fd != -1 ? (unsigned int)mf : -1;
     } else {

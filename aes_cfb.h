@@ -11,19 +11,19 @@ typedef struct aes_cfb_struct_t {
 
 // init an aes_cfb with a key
 void aes_cfb_init ( PGM_CTX *pgm_ctx,
-		    AES_CFB *aes_cfb,
-		    char *key );
+            AES_CFB *aes_cfb,
+            char *key );
 // encrypt
 void aes_cfb_encrypt ( PGM_CTX *pgm_ctx,
-		       AES_CFB *aes_cfb,
-		       int block_count,
-		       unsigned char *cleartext,
-		       unsigned char *cryptext );
+               AES_CFB *aes_cfb,
+               int block_count,
+               unsigned char *cleartext,
+               unsigned char *cryptext );
 // decrypt
 void aes_cfb_decrypt ( PGM_CTX *pgm_ctx,
-		       AES_CFB *aes_cfb,
-		       int block_count,
-		       unsigned char *cleartext,
-		       unsigned char *cryptext );
+               AES_CFB *aes_cfb,
+               int block_count,
+               unsigned char *cleartext,
+               unsigned char *cryptext );
 
 #endif // __aes_cfb_h__

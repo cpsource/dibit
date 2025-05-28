@@ -1,6 +1,11 @@
 #include "util.h"
 
-// get bit
+//
+// get_bit - return a single bit from the given array
+//   array: pointer to the bit array
+//   bitno: bit offset to retrieve
+//   returns: 0 or 1 depending on the value of the bit
+//
 int get_bit ( unsigned char *array, int bitno )
 {
   int off = bitno / 8;
@@ -10,7 +15,11 @@ int get_bit ( unsigned char *array, int bitno )
   return array[off] & mask ? 1 : 0;
 }
 
-// clr bit
+//
+// clr_bit - clear a single bit in the array
+//   array: pointer to the bit array
+//   bitno: bit offset to clear
+//
 void clr_bit ( unsigned char *array, int bitno )
 {
   int off = bitno / 8;
@@ -20,7 +29,12 @@ void clr_bit ( unsigned char *array, int bitno )
   array[off] &= ~mask;
 }
 
-// set bit
+//
+// set_bit - set or clear a bit in the array
+//   array: pointer to the bit array
+//   bitno: bit offset to modify
+//   val  : value to write (0 or 1)
+//
 void set_bit ( unsigned char *array, int bitno, int val )
 {
   int off = bitno / 8;
@@ -30,7 +44,12 @@ void set_bit ( unsigned char *array, int bitno, int val )
   if ( val ) array[off] |= mask;
 }
 
-// set dibit
+//
+// set_dibit - store a two bit value into the array
+//   array: pointer to the dibit array
+//   bitno: dibit offset to modify
+//   val  : value to store (0 or 1)
+//
 void set_dibit ( unsigned char *array, int bitno, int val )
 {
   int off = bitno / 4;
@@ -40,7 +59,12 @@ void set_dibit ( unsigned char *array, int bitno, int val )
   if ( val ) array[off] |= mask;
 }
 
-// get dibit
+//
+// get_dibit - fetch a two bit value from the array
+//   array: pointer to the dibit array
+//   bitno: dibit offset to read
+//   returns: 0 or 1
+//
 int get_dibit ( unsigned char *array, int bitno )
 {
   int off = bitno / 4;
@@ -51,8 +75,13 @@ int get_dibit ( unsigned char *array, int bitno )
 }
 
 
-// copy a chunk of index.html to buf
-// return 0 if we could not do it
+//
+// get_index_html - copy random data from index.html into buf
+//   buf   : output buffer
+//   cnt   : number of bytes to copy
+//   xsubi : seed for nrand48 used to randomize file offsets
+//   returns 1 on success, 0 on failure
+//
 int get_index_html ( char *buf, int cnt, unsigned short *xsubi )
 {
   static int fd = -1;
@@ -74,7 +103,7 @@ int get_index_html ( char *buf, int cnt, unsigned short *xsubi )
   if ( fd < 0 ) {
     if ( msg_flag ) {
       printf("To increase randomness of the nrand48 function,\n"
-	     "(used to generate salt), create index.html in this directory.\n");
+         "(used to generate salt), create index.html in this directory.\n");
       printf("Example: sh index.sh\n");
       msg_flag = 0;
     }

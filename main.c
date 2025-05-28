@@ -7,6 +7,11 @@
 
 int trace_flag = 1;
 
+//
+// main - entry point that simply calls dibit_main
+//   argc, argv: standard argument vector passed through
+//   returns value from dibit_main
+//
 int main ( int argc, char *argv[] )
 {
   int sts;

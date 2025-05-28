@@ -85,8 +85,8 @@ void wabbit_gen ( unsigned char *key, unsigned int fd )
     memset(sha1_input,0,sizeof(sha1_input));
     rw(mf_read,fd,sha1_input,cnt);
     sha_transform(sha1_digest,
-		  sha1_input,
-		  (unsigned int *)W);
+          sha1_input,
+          (unsigned int *)W);
     // onward
     cnt_remain -= cnt;
   }
@@ -118,17 +118,17 @@ void wabbit_gen ( unsigned char *key, unsigned int fd )
   }
   // get key bits for rabbit and lfsr
   sts = gcry_kdf_derive ( key,key_len,
-			  GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			  salt, sizeof(salt),
-			  rounds, // rounds
-			  sizeof(x),x );
+              GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+              salt, sizeof(salt),
+              rounds, // rounds
+              sizeof(x),x );
   // set iv, key for rabbit
   memset(&ecrypt_ctx,0,sizeof(ECRYPT_ctx));
   ECRYPT_keysetup( &ecrypt_ctx,
-		   x[0].rabbit_key, 128,
-		   64 );
+           x[0].rabbit_key, 128,
+           64 );
   ECRYPT_ivsetup( &ecrypt_ctx,
-		  x[0].rabbit_vec);
+          x[0].rabbit_vec);
 
   //
   // encrypt fd
@@ -149,17 +149,17 @@ void wabbit_gen ( unsigned char *key, unsigned int fd )
     for ( i = 0 ; i < cnt ; i++ ) {
       // get 'good' lfsr bits
       while ( 1 ) {
-	lfsr_dat [ i ] = get_lfsr_bits ( 8, &x[0].bs, poly_array );
-	if ( 0 == lfsr_dat [ i ] || 0xff == lfsr_dat [ i ] )
-	  continue;
-	break;
+    lfsr_dat [ i ] = get_lfsr_bits ( 8, &x[0].bs, poly_array );
+    if ( 0 == lfsr_dat [ i ] || 0xff == lfsr_dat [ i ] )
+      continue;
+    break;
       }
     }
 
     /* Generate rabbit keystream */
     ECRYPT_keystream_bytes(&ecrypt_ctx,
-			   rabbit_dat,
-			   sizeof(rabbit_dat) );
+               rabbit_dat,
+               sizeof(rabbit_dat) );
 
     for ( i = 0 ; i < cnt ; i++ ) {
       // x^ mul ( lfsr, rabbit )
@@ -214,17 +214,17 @@ int wabbit_chk ( unsigned char *key, unsigned int fd_in, unsigned int fd_out )
   }
   // get key bits for rabbit and lfsr
   sts = gcry_kdf_derive ( key,key_len,
-			  GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			  salt, sizeof(salt),
-			  rounds, // rounds
-			  sizeof(x),x );
+              GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+              salt, sizeof(salt),
+              rounds, // rounds
+              sizeof(x),x );
   // set iv, key for rabbit
   memset(&ecrypt_ctx,0,sizeof(ECRYPT_ctx));
   ECRYPT_keysetup( &ecrypt_ctx,
-		   x[0].rabbit_key, 128,
-		   64 );
+           x[0].rabbit_key, 128,
+           64 );
   ECRYPT_ivsetup( &ecrypt_ctx,
-		  x[0].rabbit_vec);
+          x[0].rabbit_vec);
 
   //
   // decrypt fd
@@ -235,7 +235,7 @@ int wabbit_chk ( unsigned char *key, unsigned int fd_in, unsigned int fd_out )
 
 #if 0
   printf("%s: (decode) cnt_remain = %d\n",
-	 __FUNCTION__,cnt_remain);
+     __FUNCTION__,cnt_remain);
 #endif
 
   while ( cnt_remain > 0 ) {
@@ -250,17 +250,17 @@ int wabbit_chk ( unsigned char *key, unsigned int fd_in, unsigned int fd_out )
     for ( i = 0 ; i < cnt; i++ ) {
       // get 'good' lfsr bits
       while ( 1 ) {
-	lfsr_dat [ i ] = get_lfsr_bits ( 8, &x[0].bs, poly_array );
-	if ( 0 == lfsr_dat [ i ] || 0xff == lfsr_dat [ i ] )
-	  continue;
-	break;
+    lfsr_dat [ i ] = get_lfsr_bits ( 8, &x[0].bs, poly_array );
+    if ( 0 == lfsr_dat [ i ] || 0xff == lfsr_dat [ i ] )
+      continue;
+    break;
       }
     }
 
     /* Generate rabbit keystream */
     ECRYPT_keystream_bytes(&ecrypt_ctx,
-			   rabbit_dat,
-			   sizeof(rabbit_dat) );
+               rabbit_dat,
+               sizeof(rabbit_dat) );
 
     // read file
     rw(mf_read,fd_in,file_dat,cnt);
@@ -295,7 +295,7 @@ int wabbit_chk ( unsigned char *key, unsigned int fd_in, unsigned int fd_out )
     rw(mf_read,fd_out,abuf,AES_BLOCK_SIZE);
     
     printf("%s:%d: first block after wabbit decrypt\n",
-	   __FUNCTION__,__LINE__);
+       __FUNCTION__,__LINE__);
     debug_show_block ( abuf, AES_BLOCK_SIZE );
   }
 #endif
@@ -323,8 +323,8 @@ int wabbit_chk ( unsigned char *key, unsigned int fd_in, unsigned int fd_out )
     memset(sha1_input,0,sizeof(sha1_input));
     rw(mf_read,fd_out,sha1_input,cnt);
     sha_transform(sha1_digest,
-		  sha1_input,
-		  (unsigned int *)W);
+          sha1_input,
+          (unsigned int *)W);
     // onward
     cnt_remain -= cnt;
   }

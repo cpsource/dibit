@@ -101,20 +101,20 @@ void lfsr_init( PGM_CTX *pgm_ctx )
   memset(pgm_ctx->poly_array_used,0,sizeof(pgm_ctx->poly_array_used));
 }
 
-#define get_bit(array,bitno) ({				\
-      int idx = bitno / (sizeof(unsigned int)*8);	\
-      int off = bitno % (sizeof(unsigned int)*8);	\
+#define get_bit(array,bitno) ({             \
+      int idx = bitno / (sizeof(unsigned int)*8);   \
+      int off = bitno % (sizeof(unsigned int)*8);   \
       ((unsigned int *)array) [ idx ] & (1<<off) ? 1 : 0; \
     })
 
 #define set_bit(array,bitno,v) ({ \
-      int idx = bitno / (sizeof(unsigned int)*8);	\
-      int off = bitno % (sizeof(unsigned int)*8);	\
-      if ( v ) {					\
-	((unsigned int *)array) [ idx ] |= (1<<off);	\
-      } else {						\
-	((unsigned int *)array) [ idx ] &= ~(1<<off);	\
-      }							\
+      int idx = bitno / (sizeof(unsigned int)*8);   \
+      int off = bitno % (sizeof(unsigned int)*8);   \
+      if ( v ) {                    \
+    ((unsigned int *)array) [ idx ] |= (1<<off);    \
+      } else {                      \
+    ((unsigned int *)array) [ idx ] &= ~(1<<off);   \
+      }                         \
     })
 
 static void shift_left ( unsigned int *array /* , int max */ )
@@ -207,8 +207,8 @@ unsigned int get_dual_lfsr_bits ( int num_bits, D_LFSR_PTR x )
 
 #if 0
   if ( trace_flag ) printf("%s: returning 0x%08x\n",
-			   __FUNCTION__,
-			   res);
+               __FUNCTION__,
+               res);
 #endif
 
   return res;
@@ -216,9 +216,9 @@ unsigned int get_dual_lfsr_bits ( int num_bits, D_LFSR_PTR x )
 
 /* init_dual_lfsr_from_key */
 void init_dual_lfsr_from_key ( PGM_CTX *pgm_ctx,
-			       D_LFSR *x,               /* output structure      */
-			       KEYBUF_3_ITERATOR *kb3_i /* key bits              */
-			       )
+                   D_LFSR *x,               /* output structure      */
+                   KEYBUF_3_ITERATOR *kb3_i /* key bits              */
+                   )
 {
   aDat a;  /* BIT_MAX number of bits in size */
   int cnt; /* number of bits stored here     */
@@ -304,20 +304,20 @@ char poly1[] = {
     113,81,80,0,-1
 };
 
-#define get_bit(array,bitno) ({				\
-      int idx = bitno / (sizeof(unsigned int)*8);	\
-      int off = bitno % (sizeof(unsigned int)*8);	\
+#define get_bit(array,bitno) ({             \
+      int idx = bitno / (sizeof(unsigned int)*8);   \
+      int off = bitno % (sizeof(unsigned int)*8);   \
       ((unsigned int *)array) [ idx ] & (1<<off) ? 1 : 0; \
     })
 
 #define set_bit(array,bitno,v) ({ \
-      int idx = bitno / (sizeof(unsigned int)*8);	\
-      int off = bitno % (sizeof(unsigned int)*8);	\
-      if ( v ) {					\
-	((unsigned int *)array) [ idx ] |= (1<<off);	\
-      } else {						\
-	((unsigned int *)array) [ idx ] &= ~(1<<off);	\
-      }							\
+      int idx = bitno / (sizeof(unsigned int)*8);   \
+      int off = bitno % (sizeof(unsigned int)*8);   \
+      if ( v ) {                    \
+    ((unsigned int *)array) [ idx ] |= (1<<off);    \
+      } else {                      \
+    ((unsigned int *)array) [ idx ] &= ~(1<<off);   \
+      }                         \
     })
 
 void shift_left ( unsigned int *array, int max )
@@ -435,7 +435,7 @@ int main()
   memset(f,0,B);
   set_bit(f,128,1);
   printf("bytes_needed(128) = %d bytes\n",
-	 bytes_needed((unsigned int *)f));
+     bytes_needed((unsigned int *)f));
 
   // done
   return 0;

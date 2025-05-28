@@ -9,8 +9,8 @@ extern int trace_flag;
 
 // init an aes_cfb with a key
 void aes_cfb_init ( PGM_CTX *pgm_ctx,
-		    AES_CFB *aes_cfb,
-		    char *key )
+            AES_CFB *aes_cfb,
+            char *key )
 {
   // use gcrypt library to build key bits
   unsigned char keybuffer [ 32 ];
@@ -33,13 +33,13 @@ void aes_cfb_init ( PGM_CTX *pgm_ctx,
 
   // get keybuffer
   sts = gcry_kdf_derive ( key,key_len,
-			  GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			  salt, sizeof(salt),
-			  16, sizeof(keybuffer),keybuffer );
+              GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+              salt, sizeof(salt),
+              16, sizeof(keybuffer),keybuffer );
   if ( sts ) {
     printf("%s: gcry_kdf_derive failed with sts = %d\n",
-	   __FUNCTION__,
-	   sts);
+       __FUNCTION__,
+       sts);
     exit(0);
   }
 
@@ -50,11 +50,11 @@ void aes_cfb_init ( PGM_CTX *pgm_ctx,
   // initialize AES
   src += 16;
   sts = crypto_aes_set_key( &aes_cfb->aes_ctx,
-			    src,
-			    16 );
+                src,
+                16 );
   if ( sts ) {
     printf("%s: crypto_aes_set_key() failed with sts = %d\n",
-	   __FUNCTION__,sts);
+       __FUNCTION__,sts);
     exit(0);
   }
 
@@ -62,10 +62,10 @@ void aes_cfb_init ( PGM_CTX *pgm_ctx,
 
 // encrypt
 void aes_cfb_encrypt ( PGM_CTX *pgm_ctx,
-		       AES_CFB *aes_cfb,
-		       int block_count,
-		       unsigned char *cleartext,
-		       unsigned char *cryptext )
+               AES_CFB *aes_cfb,
+               int block_count,
+               unsigned char *cleartext,
+               unsigned char *cryptext )
 {
   int i;
 
@@ -76,8 +76,8 @@ void aes_cfb_encrypt ( PGM_CTX *pgm_ctx,
     // A encrypted to B
 
     aes_encrypt( &aes_cfb->aes_ctx,
-		 aes_cfb->regB,     /* out */
-		 aes_cfb->regA      /* in  */ );
+         aes_cfb->regB,     /* out */
+         aes_cfb->regA      /* in  */ );
 
     // clear XOR B
 
@@ -99,10 +99,10 @@ void aes_cfb_encrypt ( PGM_CTX *pgm_ctx,
 
 // decrypt
 void aes_cfb_decrypt ( PGM_CTX *pgm_ctx,
-		       AES_CFB *aes_cfb,
-		       int block_count,
-		       unsigned char *cleartext,
-		       unsigned char *cryptext )
+               AES_CFB *aes_cfb,
+               int block_count,
+               unsigned char *cleartext,
+               unsigned char *cryptext )
 {
   int i;
 
@@ -113,8 +113,8 @@ void aes_cfb_decrypt ( PGM_CTX *pgm_ctx,
     // A encrypted to B
 
     aes_encrypt( &aes_cfb->aes_ctx,
-		 aes_cfb->regB,     /* out */
-		 aes_cfb->regA      /* in  */ );
+         aes_cfb->regB,     /* out */
+         aes_cfb->regA      /* in  */ );
 
     // crypt XOR B
 
@@ -145,8 +145,8 @@ int main ( int argc, char *argv[] )
   int i;
 
   aes_cfb_init ( NULL,
-		 &aes_cfb,
-		 "test" );
+         &aes_cfb,
+         "test" );
   for ( i = 0 ; i < 32 ; i++ ) {
     test_buf [ i ] = i;
   }
@@ -154,33 +154,33 @@ int main ( int argc, char *argv[] )
   printf("before\n");
   for ( i = 0 ; i < 32 ; i++ ) {
     printf("test_buf [ %02d ] = 0x%02x (%d)\n",
-	   i, test_buf[i]&0xff,test_buf[i]&0xff );
+       i, test_buf[i]&0xff,test_buf[i]&0xff );
   }
 
   aes_cfb_encrypt ( NULL,
-		    &aes_cfb,
-		    2,
-		    test_buf, test_buf );
+            &aes_cfb,
+            2,
+            test_buf, test_buf );
 
   printf("encrypt\n");
   for ( i = 0 ; i < 32 ; i++ ) {
     printf("test_buf [ %02d ] = 0x%02x (%d)\n",
-	   i, test_buf[i]&0xff,test_buf[i]&0xff );
+       i, test_buf[i]&0xff,test_buf[i]&0xff );
   }
 
   aes_cfb_init ( NULL,
-		 &aes_cfb_d,
-		 "test" );
+         &aes_cfb_d,
+         "test" );
 
   aes_cfb_decrypt ( NULL,
-		    &aes_cfb_d,
-		    2,
-		    test_buf, test_buf );
+            &aes_cfb_d,
+            2,
+            test_buf, test_buf );
 
   printf("after\n");
   for ( i = 0 ; i < 32 ; i++ ) {
     printf("test_buf [ %02d ] = 0x%02x (%d)\n",
-	   i, test_buf[i]&0xff,test_buf[i]&0xff );
+       i, test_buf[i]&0xff,test_buf[i]&0xff );
   }
 
   return 0;

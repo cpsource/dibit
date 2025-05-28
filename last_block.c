@@ -46,7 +46,7 @@ static uint8_t gmul(uint8_t a, uint8_t b) {
 
 // obscure the last block in a file
 void last_block_obscure ( unsigned char *array,
-			  unsigned char *key )
+              unsigned char *key )
 {
   BS bs;
   unsigned char salt [ 8 ];
@@ -90,25 +90,25 @@ void last_block_obscure ( unsigned char *array,
 
     // get initial lfsr
     sts = gcry_kdf_derive ( key,key_len,
-			    GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			    salt, sizeof(salt),
-			    rounds, // rounds
-			    sizeof(x),x );
+                GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+                salt, sizeof(salt),
+                rounds, // rounds
+                sizeof(x),x );
 
     memcpy(bs.bigSeed,x[0].triv_bs.bigSeed,sizeof(BS));
 
     trivium_init( x[0].triv_key, sizeof(x[0].triv_key)*8,
-		  x[0].triv_vec, sizeof(x[0].triv_vec)*8,
-		  &trivium_ctx );
+          x[0].triv_vec, sizeof(x[0].triv_vec)*8,
+          &trivium_ctx );
 
 #else // USE_TRIVIUM
 
     // get initial lfsr
     sts = gcry_kdf_derive ( key,key_len,
-			    GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
-			    salt, sizeof(salt),
-			    rounds, // rounds
-			    sizeof(BS),bs.bigSeed );
+                GCRY_KDF_ITERSALTED_S2K,GCRY_MD_SHA512,
+                salt, sizeof(salt),
+                rounds, // rounds
+                sizeof(BS),bs.bigSeed );
 
 #endif // USE_TRIVIUM
   }
@@ -120,7 +120,7 @@ void last_block_obscure ( unsigned char *array,
     while ( 1 ) {
       dat = get_lfsr_bits ( 8, &bs, poly_array );
       if ( 0 == dat || 0xff == dat )
-	continue;
+    continue;
       break;
     }
 
@@ -130,15 +130,15 @@ void last_block_obscure ( unsigned char *array,
     while ( 1 ) {
       trivium_dat = trivium_getbyte(&trivium_ctx);
       if ( 0 == trivium_dat || 0xff == trivium_dat )
-	continue;
+    continue;
       break;
     }
 
 #if 0
     printf("%s: dat = 0x%02x, trivium_dat = 0x%02x\n",
-	   __FUNCTION__,
-	   dat & 0xff,
-	   trivium_dat & 0xff );
+       __FUNCTION__,
+       dat & 0xff,
+       trivium_dat & 0xff );
 #endif
 
     /* Multiply two numbers in the GF(2^8) finite field defined 
@@ -147,8 +147,8 @@ void last_block_obscure ( unsigned char *array,
 
     if ( trace_flag > 1 )
       printf("%s: after mul, dat = 0x%02x\n",
-	     __FUNCTION__,
-	     dat & 0xff);
+         __FUNCTION__,
+         dat & 0xff);
 
 #else // USE_TRIVIUM
 

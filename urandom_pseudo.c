@@ -80,7 +80,7 @@ unsigned int urandom_pseudo_get_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
     // slog through
     for ( i = 0 ; i < cnt ; i++ ) {
       if ( urandom_pseudo_get_one_bit(pgm_ctx) ) {
-	res |= (1<<i);
+    res |= (1<<i);
       }
     }
   }
@@ -90,9 +90,9 @@ unsigned int urandom_pseudo_get_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
     res = 0;
     if ( trace_flag > 1 )
       printf("%s: forced retry because res = 0x%08x, cnt = %d\n",
-	     __FUNCTION__,
-	     res,
-	     cnt);
+         __FUNCTION__,
+         res,
+         cnt);
     goto retry;
   }
   // reject all 1's for any request cnt > 4
@@ -100,9 +100,9 @@ unsigned int urandom_pseudo_get_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
     res = 0;
     if ( trace_flag > 1 )
       printf("%s: forced retry because res = 0x%08x, cnt = %d\n",
-	     __FUNCTION__,
-	     res,
-	     cnt);
+         __FUNCTION__,
+         res,
+         cnt);
     goto retry;
   }
 

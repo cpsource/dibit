@@ -117,8 +117,8 @@ void trivium_init(const void* key, uint16_t keysize_b,
     c2=(((*ctx)[i])<<5);
 
     printf("setting idx %d = 0x%02x\n",
-	   i,
-	   (((*ctx)[i])>>3)|c1);
+       i,
+       (((*ctx)[i])>>3)|c1);
 
     (*ctx)[i] = (((*ctx)[i])>>3)|c1;
     c1=c2;
@@ -153,30 +153,30 @@ int main ( int argc, char *argv[] )
 
   trivium_init(key,80,iv,32,&tc );
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
 
   memset(iv,2,10);
   memset(&tc,0,sizeof(tc));
 
   trivium_init(key,80,iv,32,&tc );
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
   printf("byte = 0x%02x\n",
-	 trivium_getbyte(&tc));
+     trivium_getbyte(&tc));
 
   return 0;
 }

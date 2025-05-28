@@ -6,7 +6,7 @@
 
 extern int trace_flag;
 
-#define min(a,b) ({	\
+#define min(a,b) ({ \
       int v = a; \
       if ( b < v ) v = b; \
       v; })
@@ -25,9 +25,9 @@ void key_file_truncate ( PGM_CTX *pgm_ctx, off_t start_hole, int hole_size )
 
   if ( 1 || trace_flag > 1 ) {
     printf("%s: Closing %d byte hole in key_file.dat at 0x%x.\n",
-	   __FUNCTION__,
-	   hole_size,
-	   (int)start_hole);
+       __FUNCTION__,
+       hole_size,
+       (int)start_hole);
   }
 
   if ( pgm_ctx->dibit_n_flag ) {
@@ -38,9 +38,9 @@ void key_file_truncate ( PGM_CTX *pgm_ctx, off_t start_hole, int hole_size )
   sts = fstat(key_file_fd(pgm_ctx),&sb);
   if ( sts < 0 ) {
     printf("%s: fstat failed on fd %d, errno = %d, strerror = <%s>\n",
-	   __FUNCTION__,
-	   key_file_fd(pgm_ctx),
-	   errno, strerror(errno));
+       __FUNCTION__,
+       key_file_fd(pgm_ctx),
+       errno, strerror(errno));
     return;
   }
 
@@ -101,9 +101,9 @@ void key_file_truncate ( PGM_CTX *pgm_ctx, off_t start_hole, int hole_size )
   sts = ftruncate(key_file_fd(pgm_ctx),target);
   if ( sts < 0 ) {
     printf("%s: ftruncate failed on fd %d, errno = %d, strerror = <%s>\n",
-	   __FUNCTION__,
-	   key_file_fd(pgm_ctx),
-	   errno, strerror(errno));
+       __FUNCTION__,
+       key_file_fd(pgm_ctx),
+       errno, strerror(errno));
   }
 
   // update sb
@@ -134,8 +134,8 @@ static void save_off ( PGM_CTX *pgm_ctx, unsigned char c )
     pgm_ctx->key_file_saved_bits_cnt    += 1;
   } else {
     printf("%s: Error, key_file_saved_bits overflow, increase KEY_FILE_SAVED_BITS_MAX and recompile. (%d)\n",
-	   __FUNCTION__,
-	   pgm_ctx->key_file_saved_bits_cnt);
+       __FUNCTION__,
+       pgm_ctx->key_file_saved_bits_cnt);
     exit(0);
   }
 }
@@ -152,9 +152,9 @@ static unsigned char pull_saved ( PGM_CTX *pgm_ctx )
 
 #if 0
   printf("%s: pgm_ctx->key_file_saved_bits_idx = %d, pgm_ctx->key_file_saved_bits_cnt = %d\n",
-	 __FUNCTION__,
-	 pgm_ctx->key_file_saved_bits_idx,
-	 pgm_ctx->key_file_saved_bits_cnt);
+     __FUNCTION__,
+     pgm_ctx->key_file_saved_bits_idx,
+     pgm_ctx->key_file_saved_bits_cnt);
 #endif
 
   if ( pgm_ctx->key_file_saved_bits_idx >= pgm_ctx->key_file_saved_bits_cnt ) {
@@ -166,8 +166,8 @@ static unsigned char pull_saved ( PGM_CTX *pgm_ctx )
 
 #if 0
   printf("%s: pulling 0x%02x\n",
-	 __FUNCTION__,
-	 c & 0xff );
+     __FUNCTION__,
+     c & 0xff );
 #endif
 
   return c;
@@ -201,9 +201,9 @@ static unsigned char read_one_key_file_byte ( PGM_CTX *pgm_ctx )
 
   if ( trace_flag > 1 ) {
     printf("%s: read 0x%02x, pgm_ctx->key_file_offset = %d\n",
-	   __FUNCTION__,
-	   res & 0xff,
-	   pgm_ctx->key_file_offset);
+       __FUNCTION__,
+       res & 0xff,
+       pgm_ctx->key_file_offset);
   }
 
   // done
@@ -267,7 +267,7 @@ void key_file_init ( PGM_CTX *pgm_ctx, int off /* offset into file to start read
   sts = fstat( pgm_ctx->key_file_fd , &pgm_ctx->key_file_sb );
   if ( sts < 0 ) {
     printf("%s: Error, stat failed for key_file.dat\n",
-	   __FUNCTION__);
+       __FUNCTION__);
     exit(0);
   }
   if ( sts >= 0 ) pgm_ctx->key_file_sb_valid = 1;
@@ -347,17 +347,17 @@ unsigned int key_file_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
 
 #if 0
     printf("%s: 0x%08x, z = %d\n",
-	   __FUNCTION__,
-	   res,
-	   z++);
+       __FUNCTION__,
+       res,
+       z++);
 #endif
 
     return res;
   }
 
   printf("%s: trying for %d bits\n",
-	 __FUNCTION__,
-	 cnt);
+     __FUNCTION__,
+     cnt);
   exit(0);
 
 #if 0
@@ -373,9 +373,9 @@ unsigned int key_file_multi_bit ( PGM_CTX *pgm_ctx, int cnt )
 void key_file_show_next_free ( PGM_CTX *pgm_ctx )
 {
   printf("%s: next free key_file location 0x%x (%d)\n",
-	 __FUNCTION__,
-	 pgm_ctx->key_file_offset+1,
-	 pgm_ctx->key_file_offset+1);
+     __FUNCTION__,
+     pgm_ctx->key_file_offset+1,
+     pgm_ctx->key_file_offset+1);
 }
 
 // close

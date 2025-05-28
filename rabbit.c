@@ -103,9 +103,9 @@ void ECRYPT_init(void)
 
 /* Key setup */
 void ECRYPT_keysetup(ECRYPT_ctx* ctx,
-		     const u8* key,
-		     u32 keysize, /* 128 bits, 4 ints, 16 bytes */
-		     u32 ivsize)
+             const u8* key,
+             u32 keysize, /* 128 bits, 4 ints, 16 bytes */
+             u32 ivsize)
 {
    /* Temporary variables */
    u32 k0, k1, k2, k3, i;
@@ -194,10 +194,10 @@ void ECRYPT_ivsetup(ECRYPT_ctx* ctx, const u8* iv /* 64 bits, 2 ints, 8 bytes */
 
 /* Encrypt/decrypt a message of any size */
 void ECRYPT_process_bytes(int action,
-			  ECRYPT_ctx* ctx,
-			  const u8* input, 
-			  u8* output,
-			  u32 msglen /* in bytes */ )
+              ECRYPT_ctx* ctx,
+              const u8* input, 
+              u8* output,
+              u32 msglen /* in bytes */ )
 {
    /* Temporary variables */
    u32 i;
@@ -303,10 +303,10 @@ void ECRYPT_keystream_bytes(ECRYPT_ctx* ctx, u8* keystream, u32 length /* in byt
 
 /* Encrypt/decrypt a number of full blocks */
 void ECRYPT_process_blocks(int action,
-			   ECRYPT_ctx* ctx,
-			   const u8* input, 
-			   u8* output,
-			   u32 blocks)
+               ECRYPT_ctx* ctx,
+               const u8* input, 
+               u8* output,
+               u32 blocks)
 {
    /* Temporary variables */
    u32 i;

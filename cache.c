@@ -105,7 +105,7 @@ static int ce_in_range ( CTX *ctx, CE *ce , int bit_offset )
 static void show_ce( CE *ce)
 {
   printf("%s: entry, ce = %p\n",
-	 __FUNCTION__,ce);
+     __FUNCTION__,ce);
   printf("  bit_offset = %d\n",ce->bit_offset);
   printf("  off        = %d\n",ce->off);
   printf("  bit        = %d\n",ce->bit);
@@ -133,21 +133,21 @@ static int do_local_match ( CTX *ctx, CE *ce, unsigned char *array, int bit_offs
     if ( !(array[off]&dibit_mask) ) {
       // count
       if ( bit_offset == 0 ) {
-	// found
-	if ( rbit_flag ) {
-	  ret = off * 4 + bit;
-	} else {
-	  ret = array[off]&bit_mask ? 1 : 0;
-	}
-	array[off] |= dibit_mask;
+    // found
+    if ( rbit_flag ) {
+      ret = off * 4 + bit;
+    } else {
+      ret = array[off]&bit_mask ? 1 : 0;
+    }
+    array[off] |= dibit_mask;
 
 #if defined(CP_TRACE)
-	printf("%s: found bit, array[%d] = 0x%02x, bit_mask = 0x%02x, ret = %d\n",
-	       __FUNCTION__,
-	       off,array[off]&0xff,bit_mask,ret);
+    printf("%s: found bit, array[%d] = 0x%02x, bit_mask = 0x%02x, ret = %d\n",
+           __FUNCTION__,
+           off,array[off]&0xff,bit_mask,ret);
 #endif
 
-	break;
+    break;
       }
       bit_offset -= 1;
     }
@@ -165,8 +165,8 @@ static int do_local_match ( CTX *ctx, CE *ce, unsigned char *array, int bit_offs
     if ( ce->bit_offset ) {
       ce->bit_offset -= 1;
       if ( ce->bit_offset < 0 ) {
-	remque(ce);
-	free(ce);
+    remque(ce);
+    free(ce);
       }
     }
     // onward
@@ -184,8 +184,8 @@ int cache_find_dibit ( CTX *ctx, unsigned char *array, int bit_offset )
 
 #if defined(CP_TRACE)
   printf("%s: entry, bit_offset = %d (0x%08x)\n",
-	 __FUNCTION__,
-	 bit_offset, bit_offset);
+     __FUNCTION__,
+     bit_offset, bit_offset);
 #endif
 
   ce = (CE *)ctx->ce_q.q_forw;
@@ -223,8 +223,8 @@ int cache_find_rbit ( CTX *ctx, unsigned char *array, int bit_offset )
 
 #if defined(CP_TRACE)
   printf("%s: entry, bit_offset = %d\n",
-	 __FUNCTION__,
-	 bit_offset);
+     __FUNCTION__,
+     bit_offset);
 #endif
 
   ce = (CE *)ctx->ce_q.q_forw;

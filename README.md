@@ -20,8 +20,8 @@ dibit's design goals were thus:
 of information has a certain bit distance to the next bit of relevant 
 information.
 
-For example, if a byte were encoded to a byte, each bit couldn’t be farther
-away to the next bit of information than seven bits.
+For example, if a byte were encoded to a byte, each bit couldn't be farther
+away from the next bit of information than seven bits.
 
 With AES-128, each bit can only get a maximum distance of 127 bits away.
 
@@ -53,7 +53,7 @@ pseudo-random number generator. The block is approximately 28,000 bits.
 Step 2: For each bit in this block, another pseudo-random generator selects a
 bit position.
 
-Step 3: Next, that bit as selected in Step 2 is xor'd with a another pseudo-random bit generator.
+Step 3: Next, that bit as selected in Step 2 is xor'd with another pseudo-random bit generator.
 
 Step 4: Next, the output bit position in the cypher-text is selected from another
 pseudo-random generator.
@@ -93,7 +93,7 @@ index.sh to obtain a daily copy of this file. Get the file by
 
 3. key information is provided by key_file.dat. It's a Linux soft-link and
 should point to some huge file. I happen to use a Linux distribution as it's
-large and commony available, but you can use anything. To get the file I use,
+large and commonly available, but you can use anything. To get the file I use,
 do
 
   sudo sh linux.sh
@@ -150,7 +150,7 @@ key_file_show_next_free: next free key_file location 0x100c (4108)
 > ./dibit -d -f zz.00001.dibit -k "0x0-My Test Key."
 main: created temp file <zzTmpdz3rl6>
 cleartext_cnt = 1861, salt_cnt = 1214, workgroup_size = 3075, remaining_cyphertext =  3431, fuzz = 6
-burried output file name <testfile.txt>
+buried output file name <testfile.txt>
 cleartext_cnt = 1985, salt_cnt = 1445, workgroup_size = 3430, remaining_cyphertext =     0, fuzz = 4
 main: renamed <zzTmpdz3rl6> as <testfile.txt>
 
@@ -247,7 +247,7 @@ where:
   WABBIT uses the rabbit stream cipher gf2^128 times an lfsr to xor the data
 
   Note: sha1 is diffused throughout any previous cyphertext before WABBIT
-  encription.
+  encryption.
 
 How strong is the key?
 ----------------------
@@ -261,7 +261,7 @@ Will quantum computers or DNA analysis help decrypt a message?
 
 Possible, but certainly very costly.
 
-Quantum computers are measured in quobits and research has them only at about
+Quantum computers are measured in qubits and research has them only at about
 10 or so of these. This might work on a cypher with a lesser Bit Locality,
 but would have trouble with the long and variable bit lengths in dibit.
 
@@ -276,12 +276,12 @@ Yes, but dibit uses two different types of pseudo-random number generators for e
 of four streams. For example, the Blum Blum Shub [1] generator is XOR'd with a dual
 linear feedback shift register [2][4] to produce output stream 2.
 
-Other streams use different algorithms and are pared similarly.
+Other streams use different algorithms and are paired similarly.
 
 Finally, all four streams are combined uniquely in the 'Dibit Encryption
 Algorithm'.
 
-Are there any repeating patters in a .dibit file?
+Are there any repeating patterns in a .dibit file?
 -------------------------------------------------
 
 None have been found so far. If you try to compress the file with gzip or bzip2,
@@ -296,7 +296,7 @@ This was not added to increase the strength of the encryption, but rather to obs
 the location of the marker and the number of pad bytes added.
 
 Dibit is amazingly sensitive to workgroup-size, and the starting location of that work-group,
-so this information in concealed.
+so this information is concealed.
 
 For version 1.1, the last AES_CFB encrypted block in the file is obscured further by module
 last_block.[ch]. This was done because it was felt that for certain pads,
@@ -308,7 +308,7 @@ Futures
 
 I can see modifying the final AES_CFB pass to make it byte oriented so that the
 last AES packet in the file can't be guessed. Rarely, the pad algorithm may
-write a 1 followd by 15 0's to the file. This could be guessed and used to
+write a 1 followed by 15 0's to the file. This could be guessed and used to
 determine the master-key.
 
 I can see adding a hash at the end of the file before the last AES_CFB

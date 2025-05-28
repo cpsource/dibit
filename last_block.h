@@ -4,6 +4,6 @@
 // encrypt/decript last block
 
 void last_block_obscure ( unsigned char *array,
-			  unsigned char *key );
+              unsigned char *key );
 
 #endif // __last_block_h
