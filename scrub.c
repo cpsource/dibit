@@ -98,6 +98,13 @@ static PAT pats[35] = {
 
 static char *f = NULL;
 
+//
+// zorch_file - overwrite a file using a specific pattern or random data
+//   fname : file to modify
+//   flag  : if non-zero fill with random data, otherwise use pat
+//   pat   : data pattern used when flag is zero
+//   xsubi : seed for nrand48 when generating random bytes
+//
 static void zorch_file ( char *fname , int flag, unsigned int pat, unsigned short *xsubi )
 {
   struct stat sb;
@@ -156,7 +163,11 @@ static void zorch_file ( char *fname , int flag, unsigned int pat, unsigned shor
   close(fd);
 }
 
-// scrub
+//
+// scrub - securely erase a file using the Gutmann method
+//   fname : path of file to scrub
+//   xsubi : seed for nrand48 when random patterns are required
+//
 void scrub ( char *fname , unsigned short *xsubi )
 {
   int i;

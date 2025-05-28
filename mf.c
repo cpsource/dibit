@@ -1,4 +1,4 @@
-// mf - memory file - mimics open/close/read/writre execpt in memory
+// mf - memory file - mimics open/close/read/write except in memory
 
 #include <sys/mman.h>
 

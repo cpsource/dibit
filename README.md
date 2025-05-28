@@ -20,7 +20,7 @@ dibit's design goals were thus:
 of information has a certain bit distance to the next bit of relevant 
 information.
 
-For example, if a byte were encoded to a byte, each bit couldn’t be farther
+For example, if a byte were encoded to a byte, each bit couldnâ€™t be farther
 away to the next bit of information than seven bits.
 
 With AES-128, each bit can only get a maximum distance of 127 bits away.
@@ -93,7 +93,7 @@ index.sh to obtain a daily copy of this file. Get the file by
 
 3. key information is provided by key_file.dat. It's a Linux soft-link and
 should point to some huge file. I happen to use a Linux distribution as it's
-large and commony available, but you can use anything. To get the file I use,
+large and commonly available, but you can use anything. To get the file I use,
 do
 
   sudo sh linux.sh
@@ -247,7 +247,7 @@ where:
   WABBIT uses the rabbit stream cipher gf2^128 times an lfsr to xor the data
 
   Note: sha1 is diffused throughout any previous cyphertext before WABBIT
-  encription.
+  encryption.
 
 How strong is the key?
 ----------------------
@@ -261,7 +261,7 @@ Will quantum computers or DNA analysis help decrypt a message?
 
 Possible, but certainly very costly.
 
-Quantum computers are measured in quobits and research has them only at about
+Quantum computers are measured in qubits and research has them only at about
 10 or so of these. This might work on a cypher with a lesser Bit Locality,
 but would have trouble with the long and variable bit lengths in dibit.
 
@@ -281,7 +281,7 @@ Other streams use different algorithms and are pared similarly.
 Finally, all four streams are combined uniquely in the 'Dibit Encryption
 Algorithm'.
 
-Are there any repeating patters in a .dibit file?
+Are there any repeating patterns in a .dibit file?
 -------------------------------------------------
 
 None have been found so far. If you try to compress the file with gzip or bzip2,
@@ -308,7 +308,7 @@ Futures
 
 I can see modifying the final AES_CFB pass to make it byte oriented so that the
 last AES packet in the file can't be guessed. Rarely, the pad algorithm may
-write a 1 followd by 15 0's to the file. This could be guessed and used to
+write a 1 followed by 15 0's to the file. This could be guessed and used to
 determine the master-key.
 
 I can see adding a hash at the end of the file before the last AES_CFB
